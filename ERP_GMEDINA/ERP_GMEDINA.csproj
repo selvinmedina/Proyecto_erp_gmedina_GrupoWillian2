@@ -176,6 +176,7 @@
     <Compile Include="Controllers\EmpleadoComisionesController.cs" />
     <Compile Include="Controllers\FormaPagoController.cs" />
     <Compile Include="Controllers\ISRController.cs" />
+    <Compile Include="Controllers\LiquidacionController.cs" />
     <Compile Include="Controllers\PlanillaController.cs" />
     <Compile Include="Controllers\TechosDeduccionesController.cs" />
     <Compile Include="Controllers\TipoDeduccionesController.cs" />
@@ -184,6 +185,7 @@
     </Compile>
     <Compile Include="Helpers\General.cs" />
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
+    <Compile Include="Helpers\Liquidacion.cs" />
     <Compile Include="Models\CatalogoDeIngresosViewModel.cs" />
     <Compile Include="Models\cCatalogoDeDeducciones.cs" />
     <Compile Include="Models\cCatalogoDePlanillas.cs" />
@@ -826,6 +828,7 @@
     <Content Include="Content\plugins\dropzone\basic.css" />
     <Content Include="Content\plugins\dropzone\dropzone.css" />
     <Content Include="Content\plugins\dualListbox\bootstrap-duallistbox.min.css" />
+    <Content Include="Content\plugins\flatpickr\flatpickr.css" />
     <Content Include="Content\plugins\footable\fonts\footable.svg" />
     <Content Include="Content\plugins\footable\footable.core.css" />
     <Content Include="Content\plugins\fullcalendar\fullcalendar.css" />
@@ -921,6 +924,7 @@
     <Content Include="Scripts\app\General\EmpleadoBonos.js" />
     <Content Include="Scripts\app\General\EmpleadoComisiones.js" />
     <Content Include="Scripts\app\General\FormaPago.js" />
+    <Content Include="Scripts\app\General\Liquidacion.js" />
     <Content Include="Scripts\app\General\Planilla.js" />
     <Content Include="Scripts\app\General\SerializeDate.js" />
     <Content Include="Scripts\app\General\TechosDeducciones.js" />
@@ -1210,6 +1214,7 @@
     <Content Include="Scripts\plugins\dualListbox\jquery.bootstrap-duallistbox.js" />
     <Content Include="Scripts\plugins\easypiechart\easypiechart.js" />
     <Content Include="Scripts\plugins\easypiechart\jquery.easypiechart.js" />
+    <Content Include="Scripts\plugins\flatpickr\flatpickr.js" />
     <Content Include="Scripts\plugins\flot\curvedLines.js" />
     <Content Include="Scripts\plugins\flot\excanvas.min.js" />
     <Content Include="Scripts\plugins\flot\jquery.flot.js" />
@@ -1516,6 +1521,7 @@
     <Content Include="Views\ISR\Details.cshtml" />
     <Content Include="Views\ISR\Edit.cshtml" />
     <Content Include="Views\ISR\Index.cshtml" />
+    <Content Include="Views\Liquidacion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

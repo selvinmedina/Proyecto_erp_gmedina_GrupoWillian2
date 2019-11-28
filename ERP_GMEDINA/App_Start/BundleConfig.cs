@@ -488,6 +488,14 @@ namespace ERP_GMEDINA
             bundles.Add(new StyleBundle("~/Content/app/General").Include(
                  "~/Content/app/General/catalogoPlanillas.css"));
 
+            bundles.Add(new ScriptBundle("~/Scripts/app/general/Liquidacion").Include(
+                "~/Scripts/app/General/Liquidacion.js"));
+            
+            bundles.Add(new ScriptBundle("~/plugins/flatpickr").Include(
+                "~/Scripts/flatpickr/flatpickr.js"));
+
+            bundles.Add(new StyleBundle("~/Content/plugins/flatpickr").Include(
+                 "~/Content/plugins/flatpickr/flatpickr.css"));
 
             //bundles ScripBase/Validate DataAnnotations
             bundles.Add(new ScriptBundle("~/Scripts/Scripts_Base/Jquery-Validate-DataAnnotations").Include(

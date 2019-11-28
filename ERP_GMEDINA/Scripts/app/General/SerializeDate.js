@@ -20,6 +20,20 @@ function FechaFormato(pFecha) {
 }
 
 
+function FechaFormato(pFecha) {
+    if (!pFecha)
+        return "Sin modificaciones";
+    var fechaString = pFecha.substr(6, 19);
+    var fechaActual = new Date(parseInt(fechaString));
+    var dDia = pad2(fechaActual.getDate());
+    var dMes = fechaActual.getMonth() + 1;
+    var dAnio = fechaActual.getFullYear();
+    var FechaFinal = dDia + "/" + dMes + "/" + dAnio;
+    return [FechaFinal, dDia, dMes, dAnio];
+}
+
+
+
 
 function FechaFormatoNac(pFecha) {
     var fechaString = pFecha.substr(6, 19);

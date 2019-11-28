@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="float-e-margins">
+                <div class="ibox-title">
+                    <h5>Liquidación</h5>
+                </div>
+                <div class="ibox-content">
+                    <h2>Ingrese dos fechas</h2>
+
+                    <div class="form-group" id="data_5">
+                        <label class="font-noraml">Seleccione fecha de contratación y fecha de despido</label>
+                        <div class="input-daterange input-group" id="datepicker">
+                            <input type="text" class="input-sm form-control" id="fechaInicio" name="start" value="2019/01/01" />
+                            <span class="input-group-addon">hasta</span>
+                            <input type="text" class="input-sm form-control" id="fechaFin" name="end" value="2019/12/30" />
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" id="btnEnviarFechas">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/plugins/izitoast")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/Scripts/app/general/Liquidacion")
+}
+
+
+@section Styles {
+
+    @Styles.Render("~/plugins/dataPickerStyles")
+}
