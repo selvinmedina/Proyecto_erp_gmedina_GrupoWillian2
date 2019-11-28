@@ -18,12 +18,23 @@
                                 <tr>
                                     <th>Descripción planilla</th>
                                     <th>Frecuencia de pago en dias</th>
+                                    <th>Recibe Comision</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>@Html.DisplayFor(model => model.cpla_DescripcionPlanilla)</td>
                                     <td>@Html.DisplayFor(model => model.cpla_FrecuenciaEnDias)</td>
+                                    <td>
+                                        @if (Model.cpla_RecibeComision)
+                                        {
+                                            <label class="control-label col-md-2">Si</label>
+                                        }
+                                        else
+                                        {
+                                            <label class="control-label col-md-2">No</label>
+                                        }   
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

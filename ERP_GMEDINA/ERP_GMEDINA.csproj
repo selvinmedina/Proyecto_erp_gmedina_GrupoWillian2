@@ -297,9 +297,6 @@
     <Compile Include="Models\tbHabilidadesRequisicion.cs">
       <DependentUpon>ERP_GMEDINA.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\tbHistorialAmonestaciones.cs">
-      <DependentUpon>ERP_GMEDINA.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\tbHistorialAudienciaDescargo.cs">
       <DependentUpon>ERP_GMEDINA.tt</DependentUpon>
     </Compile>

@@ -53,7 +53,6 @@
         <EntityTypeShape EntityType="ERP_GMEDINAModel.tbHabilidades" Width="1.5" PointX="3" PointY="189.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ERP_GMEDINAModel.tbHabilidadesPersona" Width="1.5" PointX="8.25" PointY="167.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ERP_GMEDINAModel.tbHabilidadesRequisicion" Width="1.5" PointX="8.25" PointY="182.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ERP_GMEDINAModel.tbHistorialAmonestaciones" Width="1.5" PointX="10.5" PointY="179.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ERP_GMEDINAModel.tbHistorialAudienciaDescargo" Width="1.5" PointX="13.5" PointY="143.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ERP_GMEDINAModel.tbHistorialCargos" Width="1.5" PointX="16.5" PointY="155.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ERP_GMEDINAModel.tbHistorialContrataciones" Width="1.5" PointX="21.75" PointY="156.75" IsExpanded="true" />
@@ -206,8 +205,6 @@
         <AssociationConnector Association="ERP_GMEDINAModel.FK_Acce_tbUsuario_usu_Id_rrhh_tbHabilidadesPersona_hape_UsuarioModifica" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_Acce_tbUsuario_usu_Id_rrhh_tbHabilidadesRequisicion_hreq_UsuarioCrea" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_Acce_tbUsuario_usu_Id_rrhh_tbHabilidadesRequisicion_hreq_UsuarioModifica" ManuallyRouted="false" />
-        <AssociationConnector Association="ERP_GMEDINAModel.FK_Acce_tbUsuario_usu_Id_rrhh_tbHistorialAmonestaciones_hamo_UsuarioCrea" ManuallyRouted="false" />
-        <AssociationConnector Association="ERP_GMEDINAModel.FK_Acce_tbUsuario_usu_Id_rrhh_tbHistorialAmonestaciones_hamo_UsuarioModifica" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_Acce_tbUsuario_usu_Id_rrhh_tbHistorialAudienciaDescargo_aude_UsuarioCrea" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_Acce_tbUsuario_usu_Id_rrhh_tbHistorialAudienciaDescargo_aude_UsuarioModifica" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_Acce_tbUsuario_usu_Id_rrhh_tbHistorialCargos_hcar_UsuarioCrea" ManuallyRouted="false" />
@@ -321,7 +318,6 @@
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbDepartamentos_depto_Id_rrhh_tbEmpleados_depto_Id" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbDepartamentos_depto_Id_rrhh_tbHistorialContrataciones_depto_Id" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbEmpleados_emp_Id_rrhh_tbEquipoEmpleados_emp_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbEmpleados_emp_Id_rrhh_tbHistorialAmonestaciones_emp_Id" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbEmpleados_emp_Id_rrhh_tbHistorialAudienciaDescargo_emp_Id" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbEmpleados_emp_Id_rrhh_tbHistorialCargos_emp_Id" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbEmpleados_emp_Id_rrhh_tbHistorialHorasTrabajadas_emp_Id" ManuallyRouted="false" />
@@ -343,8 +339,6 @@
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbHabilidades_habi_Id_rrhh_tbHabilidadesRequisicion_habi_Id" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbPersonas_per_Id_rrhh_tbHabilidadesPersona_per_Id" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbRequisiciones_req_Id_rrhh_tbHabilidadesRequisicion_req_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbHistorialAmonestaciones_hamo_Id_rrhh_tbHistorialAmonestaciones_hamo_AmonestacionAnterior" ManuallyRouted="false" />
-        <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbTipoAmonestaciones_tamo_Id_rrhh_tbHistorialAmonestaciones_tamo_Id" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbSeleccionCandidatos_scan_Id_rrhh_tbHistorialContrataciones_scan_Id" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbJornadas_jor_Id_rrhh_tbHistorialHorasTrabajadas_jor_Id" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbTipoHoras_tiho_Id_rrhh_tbHistorialHorasTrabajadas_tiho_Id" ManuallyRouted="false" />
@@ -367,6 +361,10 @@
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbTipoMonedas_tmon_Id_rrhh_tbSueldos_tmon_Id" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbTitulos_titu_Id_rrhh_tbTitulosPersona_titu_Id" ManuallyRouted="false" />
         <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbTitulos_titu_Id_rrhh_tbTitulosRequisicion_titu_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="ERP_GMEDINAModel.FK_Acce_tbUsuario_usu_Id_Plani_tbEmpleadoComisiones_cc_UsuarioCrea" />
+        <AssociationConnector Association="ERP_GMEDINAModel.FK_Acce_tbUsuario_usu_Id_Plani_tbEmpleadoComisiones_cc_UsuarioModifica" />
+        <AssociationConnector Association="ERP_GMEDINAModel.FK_Plani_tbCatalogoDeIngresos_cin_IdIngreso_Plani_tbEmpleadoComisiones_cin_IdIngreso" />
+        <AssociationConnector Association="ERP_GMEDINAModel.FK_rrhh_tbEmpleados_emp_Id_Plani_tbEmpleadoComisioness_emp_Id" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

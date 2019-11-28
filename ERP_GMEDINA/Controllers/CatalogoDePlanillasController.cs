@@ -26,12 +26,13 @@ namespace ERP_GMEDINA.Controllers
             var tbCatalogoDePlanillas = db.tbCatalogoDePlanillas
                 .Where(x => x.cpla_Activo == true)
                 .OrderByDescending(x => x.cpla_FechaCrea)
-                .Select(x => new CatalogoDePlanillasViewModel { idPlanilla = x.cpla_IdPlanilla, descripcionPlanilla = x.cpla_DescripcionPlanilla, frecuenciaDias = x.cpla_FrecuenciaEnDias });
+                .Select(x => new CatalogoDePlanillasViewModel { idPlanilla = x.cpla_IdPlanilla, descripcionPlanilla = x.cpla_DescripcionPlanilla, frecuenciaDias = x.cpla_FrecuenciaEnDias, recibeComision = (x.cpla_RecibeComision == true ? "Si": "No") });
             object json = new { data = tbCatalogoDePlanillas };
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
+        //Enviar los ingresos y deducciones de la planilla
         public JsonResult getDeduccionIngresos(int id)
         {
             var deducciones = db.tbTipoPlanillaDetalleDeduccion
@@ -106,7 +107,7 @@ namespace ERP_GMEDINA.Controllers
 
         // POST: CatalogoDePlanillas/Create
         [HttpPost]
-        public ActionResult Create(string[] catalogoDePlanillas, int[] catalogoIngresos, int[] catalogoDeducciones)
+        public ActionResult Create(string[] catalogoDePlanillas, int[] catalogoIngresos, int[] catalogoDeducciones, bool checkRecibeComision)
         {
 
             //La variabele "response" puede contener la palabra: "bien", o "error".
@@ -156,7 +157,7 @@ namespace ERP_GMEDINA.Controllers
                      * El procedimiento lo igualo a la variable listCatalogoDePlanillas para luego recorrerla
                      * y ver que datos me trae del procedimiento almacenado
                      */
-                    listCatalogoDePlanillas = InsertarPlanilla(cpla_UsuarioCreaModifica, cpla_FechaCreaModifica, cpla_DescripcionPlanilla, cpla_FrecuenciaEnDias);
+                    listCatalogoDePlanillas = InsertarPlanilla(cpla_UsuarioCreaModifica, cpla_FechaCreaModifica, cpla_DescripcionPlanilla, cpla_FrecuenciaEnDias, checkRecibeComision);
 
                     /*Recorrer la variable listCatalogoDePlanillas para obtener el id del campo registro ingresado actualmente.
                      *O obtener un -1 y el mensaje de error enviado desde el procedimieto almacenado
@@ -211,24 +212,26 @@ namespace ERP_GMEDINA.Controllers
         }
 
         //Insertar una nueva planilla
-        private IEnumerable<object> InsertarPlanilla(int cpla_UsuarioCreaModifica, DateTime cpla_FechaCreaModifica, string cpla_DescripcionPlanilla, int cpla_FrecuenciaEnDias)
+        private IEnumerable<object> InsertarPlanilla(int cpla_UsuarioCreaModifica, DateTime cpla_FechaCreaModifica, string cpla_DescripcionPlanilla, int cpla_FrecuenciaEnDias, bool checkRecibeComision)
         {
             //Retorna la planilla insertada
             return db.UDP_Plani_tbCatalogoDePlanillas_Insert(cpla_DescripcionPlanilla,
                 cpla_FrecuenciaEnDias,
                 cpla_UsuarioCreaModifica,
-                cpla_FechaCreaModifica);
+                cpla_FechaCreaModifica,
+                checkRecibeComision);
         }
 
         //Editar una planilla
-        private string EditarPlanilla(int? idPlanillaEdit, ref string MensajeError, int cpla_UsuarioCreaModifica, DateTime cpla_FechaCreaModifica, string cpla_DescripcionPlanilla, int cpla_FrecuenciaEnDias)
+        private string EditarPlanilla(int? idPlanillaEdit, ref string MensajeError, int cpla_UsuarioCreaModifica, DateTime cpla_FechaCreaModifica, string cpla_DescripcionPlanilla, int cpla_FrecuenciaEnDias, bool checkRecibeComision)
         {
             //Procedimiento almacenado para editar el catalogo de planillas
             IEnumerable<object> listCatalogoDePlanillas = db.UDP_Plani_tbCatalogoDePlanillas_Update(idPlanillaEdit,
                 cpla_DescripcionPlanilla,
                 cpla_FrecuenciaEnDias,
                 cpla_UsuarioCreaModifica,
-                cpla_FechaCreaModifica);
+                cpla_FechaCreaModifica,
+                checkRecibeComision);
 
             //Recorrer el resultado de listCatalogoDePlanillas para saber si hubo un error
             foreach (UDP_Plani_tbCatalogoDePlanillas_Update_Result Resultado in listCatalogoDePlanillas)
@@ -380,7 +383,7 @@ namespace ERP_GMEDINA.Controllers
 
         // POST: CatalogoDePlanillas/Edit/5/arrayCatalogoPlanillas/arrayCatalogoIngresos/arrayCatalogoDeducciones
         [HttpPost]
-        public ActionResult Edit(int id, /*El id de la planilla*/ string[] catalogoDePlanillas, /*valor 1:string =  Descripcion de la planilla valor 2:int = Frecuencia en días*/ int[] catalogoIngresos, /*Array de enteros con los id de los ingresos para la planilla*/ int[] catalogoDeducciones /*Array de enteros con los id de las deducciones para la planilla*/ )
+        public ActionResult Edit(int id, /*El id de la planilla*/ string[] catalogoDePlanillas, /*valor 1:string =  Descripcion de la planilla valor 2:int = Frecuencia en días*/ int[] catalogoIngresos, /*Array de enteros con los id de los ingresos para la planilla*/ int[] catalogoDeducciones /*Array de enteros con los id de las deducciones para la planilla*/, bool checkRecibeComision)
         {
             #region Declaracion de Variables
             IEnumerable<object> borrarIngresos = null, //Aquí se almacenara el resultado del procedimiento almacenado para borrar el ingreso
@@ -477,7 +480,7 @@ namespace ERP_GMEDINA.Controllers
                 #endregion
 
                 //Actualizar el el catalogo de planillas
-                MensajeErrorCatalogoPlanillas = EditarPlanilla(id, ref MensajeErrorCatalogoPlanillas, cpla_UsuarioModifica, cpla_FechaModifica, cpla_DescripcionPlanilla, cpla_FrecuenciaEnDias);
+                MensajeErrorCatalogoPlanillas = EditarPlanilla(id, ref MensajeErrorCatalogoPlanillas, cpla_UsuarioModifica, cpla_FechaModifica, cpla_DescripcionPlanilla, cpla_FrecuenciaEnDias, checkRecibeComision);
 
                 if (MensajeErrorCatalogoPlanillas.StartsWith("-1"))
                 {

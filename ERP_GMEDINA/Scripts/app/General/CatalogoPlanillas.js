@@ -60,16 +60,17 @@ var crearEditar = function (edit) {
     listaCatalogoDeducciones(arrayDeducciones);
 
     //Insertar o editar
-    if (verificarCampos(descripcionPlanilla, frecuenciaDias, arrayIngresos, arrayDeducciones, checkRecibeComision )) {
+    if (verificarCampos(descripcionPlanilla, frecuenciaDias, arrayIngresos, arrayDeducciones)) {
         if (!edit) {
             mostrarCargandoCrear();
 
             _ajax({
                 catalogoDePlanillas: [
-                    descripcionPlanilla, frecuenciaDias, recibeComision
+                    descripcionPlanilla, frecuenciaDias
                 ],
                 catalogoIngresos: arrayIngresos,
-                catalogoDeducciones: arrayDeducciones
+                catalogoDeducciones: arrayDeducciones,
+                checkRecibeComision: checkRecibeComision.checked
             },
                 "/CatalogoDePlanillas/Create",
                 "POST",
@@ -97,10 +98,11 @@ var crearEditar = function (edit) {
             _ajax({
                 id: idPlanilla,
                 catalogoDePlanillas: [
-                    descripcionPlanilla, frecuenciaDias, recibeComision
+                    descripcionPlanilla, frecuenciaDias
                 ],
                 catalogoIngresos: arrayIngresos,
-                catalogoDeducciones: arrayDeducciones
+                catalogoDeducciones: arrayDeducciones,
+                checkRecibeComision: checkRecibeComision.checked
             },
                 "/CatalogoDePlanillas/Edit",
                 "POST",
@@ -250,7 +252,7 @@ function ocultarCargandoCrear() {
 }
 
 //Para editar o insertar utilizare esta función, para validar los campos
-function verificarCampos(descripcionPlanilla, frecuenciaDias, catalogoIngresos, catalogoDeducciones, recibeComision) {
+function verificarCampos(descripcionPlanilla, frecuenciaDias, catalogoIngresos, catalogoDeducciones) {
     var todoBien = true;
     //Validar que la descripción este bien
     if (descripcionPlanilla.trim() == "") {
@@ -275,11 +277,6 @@ function verificarCampos(descripcionPlanilla, frecuenciaDias, catalogoIngresos, 
     } else {
         validacionCatalogoIngresos.parent().hide();
     }
-
-    if(true)
-    todoBien = false;
-
-    console.log(recibeComision.checked);
 
     //Validar qeu por lo meno se halla seleccionado una deducción
     if (catalogoDeducciones.length == 0) {
@@ -312,6 +309,7 @@ function listar() {
             },
             { 'data': 'descripcionPlanilla' }, //Columna 2: descripción de la planilla, esto viene de la petición que se hizo al servidor
             { 'data': 'frecuenciaDias' }, //Columna 3: frecuencia en días de la planilla, esto viene de la petición que se hizo al servidor
+            { 'data': 'recibeComision' },
             {//Columna 4: los botones que tendrá cada fila, editar y detalles de la planilla
                 "orderable": false,
                 "data": null,
