@@ -30,14 +30,51 @@ function spinner() {
 
 const cargarSpinnerFecha = $('#cargarSpinner');
 $(document).ready(function() {
-	$('#datepicker .input-group.date').datepicker({
-		todayBtn: 'linked',
-		keyboardNavigation: false,
-		forceParse: false,
-		calendarWeeks: true,
-		autoclose: true,
-		format: 'yyyy/mm/dd'
-	});
+	$('#datepicker .input-group.date')
+		.datepicker({
+			todayBtn: 'linked',
+			keyboardNavigation: false,
+			forceParse: false,
+			calendarWeeks: true,
+			autoclose: true,
+			format: 'yyyy/mm/dd'
+		})
+		.on('changeDate', function(e) {
+			let fechaFin = inputFechaFin.val();
+
+			if (validarCampos()) {
+				_ajax(
+					{
+						idEmpleado: 1,
+						fechaFin: fechaFin
+					},
+					'/Liquidacion/GetFechaInicioFechaFin',
+					'POST',
+					(data) => {
+						cargarSpinnerFecha.html();
+						cargarSpinnerFecha.hide();
+						var mes = 0;
+						var anio = 0;
+						console.log(data);
+
+						while (data >= 360) {
+							++anio;
+							data -= 360;
+						}
+
+						while (data >= 30) {
+							++mes;
+							data -= 30;
+						}
+						mostrarTiempoTrabajado(data, mes, anio);
+					},
+					(enviar) => {
+						cargarSpinnerFecha.html(spinner());
+						cargarSpinnerFecha.show();
+					}
+				);
+			}
+		});
 	function validarCampos() {
 		var todoBien = true;
 
@@ -45,34 +82,8 @@ $(document).ready(function() {
 		if (inputFechaFin.val() == '') {
 			todoBien = false;
 		}
-
 		return todoBien;
 	}
-	$(inputFechaFin).change(() => {
-		console.clear();
-
-		let fechaFin = inputFechaFin.val();
-
-		if (validarCampos()) {
-			_ajax(
-				{
-					idEmpleado: 1,
-					fechaFin: fechaFin
-				},
-				'/Liquidacion/GetFechaInicioFechaFin',
-				'POST',
-				(data) => {
-					console.log(data);
-					cargarSpinnerFecha.hide();
-					mostrarTiempoTrabajado(data.sDias, data.sMeses, data.sAnios);
-				},
-				(enviar) => {
-					cargarSpinnerFecha.html(spinner());
-					cargarSpinnerFecha.show();
-				}
-			);
-		}
-	});
 });
 
 function mostrarTiempoTrabajado(dDias, dMeses, dAnios) {
