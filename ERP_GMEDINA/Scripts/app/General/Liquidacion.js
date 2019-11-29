@@ -122,6 +122,25 @@ $(document).ready(function () {
 
 	// });
 
+
+
+	var id = {
+		"data" : {
+			'text': 'Mountain Time Zone',
+			'children': [
+			  {
+				'id': 'CA',
+				'text': 'California'
+			  },
+			  {
+				'id': 'CO',
+				'text': 'Colorado'
+			  }
+			]
+		}
+	};
+
+
 	function validarCampos() {
 		var todoBien = true;
 
