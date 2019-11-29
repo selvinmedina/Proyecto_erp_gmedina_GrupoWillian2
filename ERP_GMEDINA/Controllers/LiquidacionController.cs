@@ -20,9 +20,8 @@ namespace ERP_GMEDINA.Controllers
         {
             int sDias = 0, sMeses = 0, sAnios = 0;
             DateTime fechaInicio;
-            //object fecha = Liquidacion.IntervaloEntreFechas(idEmpleado,fechaFin, ref sDias, ref sMeses, ref sAnios, out fechaInicio);
-            int diasTrabajados = Liquidacion.BusinessDaysUntil(fechaFin);
-            return Json(diasTrabajados, JsonRequestBehavior.AllowGet);
+            object fecha = Liquidacion.IntervaloEntreFechas(idEmpleado,fechaFin, ref sDias, ref sMeses, ref sAnios, out fechaInicio);
+            return Json(fecha, JsonRequestBehavior.AllowGet);
         }
     }
 }

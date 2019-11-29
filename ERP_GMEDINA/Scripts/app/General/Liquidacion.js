@@ -6,10 +6,10 @@ function _ajax(params, uri, type, callback, enviar) {
 		dataType: 'json',
 		contentType: 'application/json; charset=utf-8',
 		data: JSON.stringify(params),
-		beforeSend: function() {
+		beforeSend: function () {
 			enviar();
 		},
-		success: function(data) {
+		success: function (data) {
 			callback(data);
 		}
 	});
@@ -29,7 +29,7 @@ function spinner() {
 }
 
 const cargarSpinnerFecha = $('#cargarSpinner');
-$(document).ready(function() {
+$(document).ready(function () {
 	$('#datepicker .input-group.date')
 		.datepicker({
 			todayBtn: 'linked',
@@ -39,7 +39,7 @@ $(document).ready(function() {
 			autoclose: true,
 			format: 'yyyy/mm/dd'
 		})
-		.on('changeDate', function(e) {
+		.on('changeDate', function (e) {
 			let fechaFin = inputFechaFin.val();
 
 			if (validarCampos()) {
@@ -55,18 +55,33 @@ $(document).ready(function() {
 						cargarSpinnerFecha.hide();
 						var mes = 0;
 						var anio = 0;
+						var dias = 0;
+
 						console.log(data);
 
-						while (data >= 360) {
-							++anio;
-							data -= 360;
-						}
+						mes = data.sMeses;
+						anio = data.sAnios
 
-						while (data >= 30) {
-							++mes;
-							data -= 30;
+						//Metodo 1
+
+						if (data.sDias < 0) {
+							dias = data.sDias + 30;
+						} else {
+							dias = data.sDias;
 						}
-						mostrarTiempoTrabajado(data, mes, anio);
+						mostrarTiempoTrabajado(dias, mes, anio);
+
+						//Metodo 2
+						// while (data >= 360) {
+						// 	++anio;
+						// 	data -= 360;
+						// }
+
+						// while (data >= 30) {
+						// 	++mes;
+						// 	data -= 30;
+						// }
+						//mostrarTiempoTrabajado(data, mes, anio);
 					},
 					(enviar) => {
 						cargarSpinnerFecha.html(spinner());
@@ -75,6 +90,38 @@ $(document).ready(function() {
 				);
 			}
 		});
+
+	$(".select2_demo_3").select2({
+		'placeholder': "Seleccione un empleado",
+		'allowClear': true,
+		"language": {
+			"noResults": function () {
+				return "Resultados no encontrados";
+			},
+			'searching': function () {
+				return "Buscando...";
+			}
+		},
+	});
+
+
+	// $(".js-data-example-ajax").select2({
+	// 	multiple: true,
+	// 	minimumInputLength: 1,
+	// 	ajax: {
+	// 		url: "https://api.myjson.com/bins/55p57",
+	// 		dataType: 'json',
+	// 		delay: 250,
+	// 		data: function (params) {
+	// 			return {
+	// 				q: params.term, // search term
+	// 			};
+	// 		}
+	// 	},
+	// 	//escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+
+	// });
+
 	function validarCampos() {
 		var todoBien = true;
 

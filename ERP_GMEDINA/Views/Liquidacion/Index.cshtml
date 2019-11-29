@@ -10,6 +10,24 @@
         </div>
         <div class="ibox-content">
             <div class="row">
+                <div class="col-md-4">
+                    <p>
+                        Seleccione el empleado a liquidar
+                    </p>
+                    <select class="select2_demo_3 form-control">
+                        <optgroup label="Group Name">
+                            <option>Nested option</option>
+                        </optgroup>
+                        <optgroup label="Group Name">
+                            <option>Hola</option>
+                            <option>Que</option>
+                            <option>Tal</option>
+                        </optgroup>
+                    </select>
+
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-4">
                     <h2>Nuevo Calculo de Liquidación</h2>
 
@@ -47,11 +65,12 @@
 @section Scripts {
     @Scripts.Render("~/plugins/izitoast")
     @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/select2")
     @Scripts.Render("~/Scripts/app/general/Liquidacion")
 }
 
 
 @section Styles {
-
+    @Styles.Render("~/plugins/select2Styles")
     @Styles.Render("~/plugins/dataPickerStyles")
 }
