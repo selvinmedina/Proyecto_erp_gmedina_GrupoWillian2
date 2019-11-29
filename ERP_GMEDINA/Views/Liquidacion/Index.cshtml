@@ -3,30 +3,44 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutBase.cshtml";
 }
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox-title">
+            <h5>Liquidación</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="row">
+                <div class="col-lg-4">
+                    <h2>Nuevo Calculo de Liquidación</h2>
 
-<div class="wrapper wrapper-content animated fadeInRight">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="float-e-margins">
-                <div class="ibox-title">
-                    <h5>Liquidación</h5>
-                </div>
-                <div class="ibox-content">
-                    <h2>Ingrese dos fechas</h2>
-
-                    <div class="form-group" id="data_5">
-                        <label class="font-noraml">Seleccione fecha de contratación y fecha de despido</label>
-                        <div class="input-daterange input-group" id="datepicker">
-                            <input type="text" class="input-sm form-control" id="fechaInicio" name="start" value="2019/01/01" />
-                            <span class="input-group-addon">hasta</span>
-                            <input type="text" class="input-sm form-control" id="fechaFin" name="end" value="2019/12/30" />
+                    <div class="form-group" id="datepicker">
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" id="fechaFin" readonly="readonly" class="form-control" placeholder="Ingrese la fecha de despido" value="">
                         </div>
                     </div>
+                </div>
+                <div hidden class="col-lg-6" id="cargarSpinner">
 
-                    <button class="btn btn-primary" id="btnEnviarFechas">Enviar</button>
+                </div>
+                <div id="tiempoTrabajado" hidden>
+                    <div class="col-lg-2">
+                        <h1 class="text-center">Dias</h1>
+                        <h3 class="text-success text-center col-md-offset-1" id="h3Dias">1</h3>
+                    </div>
+                    <div class="col-lg-2">
+                        <h1 class="text-center">Meses</h1>
+                        <h3 class="text-success text-center" id="h3Meses">11</h3>
+                    </div>
+                    <div class="col-lg-2">
+                        <h1 class="text-center">Años</h1>
+                        <h3 class="text-success text-center" id="h3Anios">3</h3>
+                    </div>
                 </div>
             </div>
+            <div class="row">
+            </div>
         </div>
+
     </div>
 </div>
 

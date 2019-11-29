@@ -2,15 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ERP_GMEDINA.Models;
 
 namespace ERP_GMEDINA.Helpers
 {
     public class Liquidacion
     {
-        public static string IntervaloEntreFechas(DateTime fechaInicial, DateTime fechaFinal, ref string sDias, ref string sMeses, ref string sAnios)
+        public static object IntervaloEntreFechas(int idEmpleado, DateTime fechaFinal, ref int sDias, ref int sMeses, ref int sAnios, out DateTime dFechaInicial)
         {
-            DateTime dFechaInicial = fechaFinal,
-                dFechaFinal = fechaFinal;
+            DateTime dFechaFinal = fechaFinal;
+            using (ERP_GMEDINAEntities db = new ERP_GMEDINAEntities())
+            {
+                dFechaInicial = db.tbEmpleados.Where(x => x.emp_Id == 1).Select(x => x.emp_Fechaingreso).First();
+            }
+
+            TimeSpan difFechas = dFechaFinal - dFechaInicial;
+
+            if(dFechaInicial > dFechaFinal)
+                return new { sDias = 0, sMeses = 0, sAnios = 0};
 
             int dias = 0,
                 meses = 0,
@@ -26,14 +35,24 @@ namespace ERP_GMEDINA.Helpers
                 mesFechaFinal = dFechaFinal.Month,
                 anioFechaFinal = dFechaFinal.Year;
 
+
             if (diasFechaFinal < diasFechaInicio)
             {
                 diasFechaInicio += 30;
                 mesFechaFinal -= 1;
             }
 
-            //Calcula dias de antiguedad
-            dias = diasFechaFinal - diasFechaInicio;
+            //Calcula dias de antiguedad)
+
+            dias = (diasFechaFinal - diasFechaInicio) + 1;
+
+            if (dias == -30)
+                dias = 0;
+            if (dias == -31)
+                dias = 29;
+            if (dias == -32)
+                dias = 28;
+
 
             if (mesFechaFinal < mesFechaInicio)
             {
@@ -48,15 +67,12 @@ namespace ERP_GMEDINA.Helpers
             anios = anioFechaFinal - anioFechaInicio;
 
             //Asignar los dias meses y años a las variables ref
-            sDias = dias.ToString();
-            sMeses = meses.ToString();
-            sAnios = anios.ToString();
+            sDias = (dias);
+            sMeses = meses;
+            sAnios = anios;
 
-            return String.Format("{0} {1} {2} {3} {4} {5}",
-                anios,
-                (anios == 1) ? "Año" : "Años",
-                (meses == 1) ? "Mes" : "Meses",
-                (dias == 1) ? "Dia" : "Dias");
+            return new { sDias, sMeses, sAnios };
+
         }
     }
 }

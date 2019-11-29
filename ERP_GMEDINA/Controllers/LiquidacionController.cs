@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ERP_GMEDINA.Helpers;
 
 namespace ERP_GMEDINA.Controllers
 {
@@ -15,13 +16,13 @@ namespace ERP_GMEDINA.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetFechaInicioFechaFin(string fechaInicio, string fechaFin)
+        public JsonResult GetFechaInicioFechaFin(int idEmpleado, DateTime fechaFin)
         {
-            DateTime dFechaIncio = DateTime.Parse(fechaInicio);
-            DateTime dFechaFin= DateTime.Parse(fechaFin);
+            int sDias = 0, sMeses = 0, sAnios = 0;
+            DateTime fechaInicio;
+            object fecha = Liquidacion.IntervaloEntreFechas(idEmpleado,fechaFin, ref sDias, ref sMeses, ref sAnios, out fechaInicio);
 
-            object json = new { dFechaIncio, dFechaFin };
-            return Json(json, JsonRequestBehavior.AllowGet);
+            return Json(fecha, JsonRequestBehavior.AllowGet);
         }
     }
 }
