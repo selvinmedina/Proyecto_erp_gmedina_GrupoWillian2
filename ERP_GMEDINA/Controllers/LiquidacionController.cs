@@ -23,5 +23,16 @@ namespace ERP_GMEDINA.Controllers
             object fecha = Liquidacion.IntervaloEntreFechas(idEmpleado,fechaFin, ref sDias, ref sMeses, ref sAnios, out fechaInicio);
             return Json(fecha, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult GetEmpleadosAreas()
+        {
+            //TODO: Hacer la filtracion de Empleados por Areas en SQL
+
+            //Retornar como un elemento padre la Area, y elemento hijo los empleados
+
+            //Filtrar que los empleados no se hayan salido
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
     }
 }
