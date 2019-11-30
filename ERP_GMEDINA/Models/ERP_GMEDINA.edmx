@@ -834,7 +834,6 @@
           <Property Name="emp_Id" Type="int" Nullable="false" />
           <Property Name="tsal_Id" Type="int" Nullable="false" />
           <Property Name="rsal_Id" Type="int" Nullable="false" />
-          <Property Name="pres_Id" Type="int" Nullable="false" />
           <Property Name="hsal_FechaSalida" Type="date" Nullable="false" />
           <Property Name="hsal_Observacion" Type="nvarchar" MaxLength="25" />
           <Property Name="hsal_Estado" Type="bit" Nullable="false" />
@@ -969,22 +968,6 @@
           <Property Name="per_FechaCrea" Type="datetime" Nullable="false" />
           <Property Name="per_UsuarioModifica" Type="int" />
           <Property Name="per_FechaModifica" Type="datetime" />
-        </EntityType>
-        <EntityType Name="tbPrestaciones">
-          <Key>
-            <PropertyRef Name="pres_Id" />
-          </Key>
-          <Property Name="pres_Id" Type="int" Nullable="false" />
-          <Property Name="pres_DerechoPreaviso" Type="bit" Nullable="false" />
-          <Property Name="pres_Preaviso" Type="decimal" Precision="16" Scale="4" />
-          <Property Name="pres_DecimoTercer" Type="decimal" Precision="16" Scale="4" />
-          <Property Name="pres_Catorceavo" Type="decimal" Precision="16" Scale="4" />
-          <Property Name="pres_Estado" Type="bit" Nullable="false" />
-          <Property Name="pres_RazonInactivo" Type="nvarchar" MaxLength="100" />
-          <Property Name="pres_UsuarioCrea" Type="int" Nullable="false" />
-          <Property Name="pres_FechaCrea" Type="datetime" Nullable="false" />
-          <Property Name="pres_UsuarioModifica" Type="int" />
-          <Property Name="pres_FechaModifica" Type="datetime" />
         </EntityType>
         <EntityType Name="tbRazonSalidas">
           <Key>
@@ -2380,6 +2363,30 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Acce_tbUsuario_usu_Id_Plani_tbPeriodos_peri_UsuarioCrea">
+          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="1" />
+          <End Role="tbPeriodos" Type="Self.tbPeriodos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuario">
+              <PropertyRef Name="usu_Id" />
+            </Principal>
+            <Dependent Role="tbPeriodos">
+              <PropertyRef Name="peri_UsuarioCrea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Acce_tbUsuario_usu_Id_Plani_tbPeriodos_peri_UsuarioModifica">
+          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="0..1" />
+          <End Role="tbPeriodos" Type="Self.tbPeriodos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuario">
+              <PropertyRef Name="usu_Id" />
+            </Principal>
+            <Dependent Role="tbPeriodos">
+              <PropertyRef Name="peri_UsuarioModifica" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Acce_tbUsuario_usu_Id_Plani_tbPreaviso_prea_UsuarioCrea">
           <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="1" />
           <End Role="tbPreaviso" Type="Self.tbPreaviso" Multiplicity="*" />
@@ -3313,30 +3320,6 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
             </Principal>
             <Dependent Role="tbPersonas">
               <PropertyRef Name="per_UsuarioModifica" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Acce_tbUsuario_usu_Id_rrhh_tbPrestaciones_pres_UsuarioCrea">
-          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="1" />
-          <End Role="tbPrestaciones" Type="Self.tbPrestaciones" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbUsuario">
-              <PropertyRef Name="usu_Id" />
-            </Principal>
-            <Dependent Role="tbPrestaciones">
-              <PropertyRef Name="pres_UsuarioCrea" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Acce_tbUsuario_usu_Id_rrhh_tbPrestaciones_pres_UsuarioModifica">
-          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="0..1" />
-          <End Role="tbPrestaciones" Type="Self.tbPrestaciones" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbUsuario">
-              <PropertyRef Name="usu_Id" />
-            </Principal>
-            <Dependent Role="tbPrestaciones">
-              <PropertyRef Name="pres_UsuarioModifica" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4588,18 +4571,6 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_rrhh_tbPrestaciones_pres_Id_rrhh_tbHistorialSalidas_pres_Id">
-          <End Role="tbPrestaciones" Type="Self.tbPrestaciones" Multiplicity="1" />
-          <End Role="tbHistorialSalidas" Type="Self.tbHistorialSalidas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbPrestaciones">
-              <PropertyRef Name="pres_Id" />
-            </Principal>
-            <Dependent Role="tbHistorialSalidas">
-              <PropertyRef Name="pres_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_rrhh_tbRazonSalidas_rsal_Id_rrhh_tbHistorialSalidas_rsal_Id">
           <End Role="tbRazonSalidas" Type="Self.tbRazonSalidas" Multiplicity="1" />
           <End Role="tbHistorialSalidas" Type="Self.tbHistorialSalidas" Multiplicity="*" />
@@ -4835,10 +4806,14 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
         </Function>
         <Function Name="UDP_Plani_EmpleadoComisiones_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Plani">
           <Parameter Name="cc_Id" Type="int" Mode="In" />
+          <Parameter Name="EMP_Id" Type="int" Mode="In" />
           <Parameter Name="cc_UsuarioModifica" Type="int" Mode="In" />
           <Parameter Name="cc_FechaModifica" Type="datetime" Mode="In" />
           <Parameter Name="cc_PorcentajeComision" Type="decimal" Mode="In" />
           <Parameter Name="cc_TotalVenta" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="UDP_Plani_EmpleadosPorAreas_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Plani">
+          <Parameter Name="filtro" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="UDP_Plani_tbAdelantoSueldo_Activar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Plani">
           <Parameter Name="adsu_IdAdelantoSueldo" Type="int" Mode="In" />
@@ -5114,8 +5089,8 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
           <Parameter Name="area_Fechamodifica" Type="datetime" Mode="In" />
         </Function>
         <Function Name="UDP_RRHH_tbAreas_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="rrhh">
-          <Parameter Name="car_Id" Type="int" Mode="In" />
           <Parameter Name="suc_Id" Type="int" Mode="In" />
+          <Parameter Name="car_descripcion" Type="nvarchar" Mode="In" />
           <Parameter Name="area_Descripcion" Type="nvarchar" Mode="In" />
           <Parameter Name="area_Usuariocrea" Type="int" Mode="In" />
           <Parameter Name="area_Fechacrea" Type="datetime" Mode="In" />
@@ -5653,7 +5628,6 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
           <EntitySet Name="tbJornadas" EntityType="Self.tbJornadas" Schema="rrhh" store:Type="Tables" />
           <EntitySet Name="tbNacionalidades" EntityType="Self.tbNacionalidades" Schema="rrhh" store:Type="Tables" />
           <EntitySet Name="tbPersonas" EntityType="Self.tbPersonas" Schema="rrhh" store:Type="Tables" />
-          <EntitySet Name="tbPrestaciones" EntityType="Self.tbPrestaciones" Schema="rrhh" store:Type="Tables" />
           <EntitySet Name="tbRazonSalidas" EntityType="Self.tbRazonSalidas" Schema="rrhh" store:Type="Tables" />
           <EntitySet Name="tbRequisiciones" EntityType="Self.tbRequisiciones" Schema="rrhh" store:Type="Tables" />
           <EntitySet Name="tbSeleccionCandidatos" EntityType="Self.tbSeleccionCandidatos" Schema="rrhh" store:Type="Tables" />
@@ -6205,6 +6179,14 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
             <End Role="tbUsuario" EntitySet="tbUsuario" />
             <End Role="tbMotivoLiquidaciones" EntitySet="tbMotivoLiquidaciones" />
           </AssociationSet>
+          <AssociationSet Name="FK_Acce_tbUsuario_usu_Id_Plani_tbPeriodos_peri_UsuarioCrea" Association="Self.FK_Acce_tbUsuario_usu_Id_Plani_tbPeriodos_peri_UsuarioCrea">
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
+            <End Role="tbPeriodos" EntitySet="tbPeriodos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Acce_tbUsuario_usu_Id_Plani_tbPeriodos_peri_UsuarioModifica" Association="Self.FK_Acce_tbUsuario_usu_Id_Plani_tbPeriodos_peri_UsuarioModifica">
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
+            <End Role="tbPeriodos" EntitySet="tbPeriodos" />
+          </AssociationSet>
           <AssociationSet Name="FK_Acce_tbUsuario_usu_Id_Plani_tbPreaviso_prea_UsuarioCrea" Association="Self.FK_Acce_tbUsuario_usu_Id_Plani_tbPreaviso_prea_UsuarioCrea">
             <End Role="tbUsuario" EntitySet="tbUsuario" />
             <End Role="tbPreaviso" EntitySet="tbPreaviso" />
@@ -6516,14 +6498,6 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
           <AssociationSet Name="FK_Acce_tbUsuario_usu_Id_rrhh_tbPersonas_per_UsuarioModifica" Association="Self.FK_Acce_tbUsuario_usu_Id_rrhh_tbPersonas_per_UsuarioModifica">
             <End Role="tbUsuario" EntitySet="tbUsuario" />
             <End Role="tbPersonas" EntitySet="tbPersonas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Acce_tbUsuario_usu_Id_rrhh_tbPrestaciones_pres_UsuarioCrea" Association="Self.FK_Acce_tbUsuario_usu_Id_rrhh_tbPrestaciones_pres_UsuarioCrea">
-            <End Role="tbUsuario" EntitySet="tbUsuario" />
-            <End Role="tbPrestaciones" EntitySet="tbPrestaciones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Acce_tbUsuario_usu_Id_rrhh_tbPrestaciones_pres_UsuarioModifica" Association="Self.FK_Acce_tbUsuario_usu_Id_rrhh_tbPrestaciones_pres_UsuarioModifica">
-            <End Role="tbUsuario" EntitySet="tbUsuario" />
-            <End Role="tbPrestaciones" EntitySet="tbPrestaciones" />
           </AssociationSet>
           <AssociationSet Name="FK_Acce_tbUsuario_usu_Id_rrhh_tbRazonSalidas_rsal_UsuarioCrea" Association="Self.FK_Acce_tbUsuario_usu_Id_rrhh_tbRazonSalidas_rsal_UsuarioCrea">
             <End Role="tbUsuario" EntitySet="tbUsuario" />
@@ -6940,10 +6914,6 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
           <AssociationSet Name="FK_rrhh_tbPersonas_per_Id_rrhh_tbTitulosPersona_per_Id" Association="Self.FK_rrhh_tbPersonas_per_Id_rrhh_tbTitulosPersona_per_Id">
             <End Role="tbPersonas" EntitySet="tbPersonas" />
             <End Role="tbTitulosPersona" EntitySet="tbTitulosPersona" />
-          </AssociationSet>
-          <AssociationSet Name="FK_rrhh_tbPrestaciones_pres_Id_rrhh_tbHistorialSalidas_pres_Id" Association="Self.FK_rrhh_tbPrestaciones_pres_Id_rrhh_tbHistorialSalidas_pres_Id">
-            <End Role="tbPrestaciones" EntitySet="tbPrestaciones" />
-            <End Role="tbHistorialSalidas" EntitySet="tbHistorialSalidas" />
           </AssociationSet>
           <AssociationSet Name="FK_rrhh_tbRazonSalidas_rsal_Id_rrhh_tbHistorialSalidas_rsal_Id" Association="Self.FK_rrhh_tbRazonSalidas_rsal_Id_rrhh_tbHistorialSalidas_rsal_Id">
             <End Role="tbRazonSalidas" EntitySet="tbRazonSalidas" />
@@ -13403,6 +13373,7 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
           </FunctionImport>
           <FunctionImport Name="UDP_Plani_EmpleadoComisiones_Update" ReturnType="Collection(ERP_GMEDINAModel.UDP_Plani_EmpleadoComisiones_Update_Result)">
             <Parameter Name="cc_Id" Mode="In" Type="Int32" />
+            <Parameter Name="EMP_Id" Mode="In" Type="Int32" />
             <Parameter Name="cc_UsuarioModifica" Mode="In" Type="Int32" />
             <Parameter Name="cc_FechaModifica" Mode="In" Type="DateTime" />
             <Parameter Name="cc_PorcentajeComision" Mode="In" Type="Decimal" />
@@ -13682,8 +13653,8 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
             <Parameter Name="area_Fechamodifica" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="UDP_RRHH_tbAreas_Insert" ReturnType="Collection(Int32)">
-            <Parameter Name="car_Id" Mode="In" Type="Int32" />
             <Parameter Name="suc_Id" Mode="In" Type="Int32" />
+            <Parameter Name="car_descripcion" Mode="In" Type="String" />
             <Parameter Name="area_Descripcion" Mode="In" Type="String" />
             <Parameter Name="area_Usuariocrea" Mode="In" Type="Int32" />
             <Parameter Name="area_Fechacrea" Mode="In" Type="DateTime" />
@@ -14171,6 +14142,9 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
             <End Role="tbEmpleados" EntitySet="tbEmpleados" />
             <End Role="tbEmpleadoComisiones" EntitySet="tbEmpleadoComisiones" />
           </AssociationSet>
+          <FunctionImport Name="UDP_Plani_EmpleadosPorAreas_Select" ReturnType="Collection(ERP_GMEDINAModel.UDP_Plani_EmpleadosPorAreas_Select_Result)" >
+            <Parameter Name="filtro" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="UDP_Plani_DecimoTercerMes_RPT_Result">
           <Property Type="Int32" Name="dtm_IdDecimoTercerMes" Nullable="false" />
@@ -14394,6 +14368,9 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="UDP_Plani_EmpleadosPorAreas_Select_Result">
+          <Property Type="String" Name="JSON_F52E2B61_18A1_11d1_B105_00805F49916B" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -15284,7 +15261,6 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
                 <ScalarProperty Name="emp_Id" ColumnName="emp_Id" />
                 <ScalarProperty Name="tsal_Id" ColumnName="tsal_Id" />
                 <ScalarProperty Name="rsal_Id" ColumnName="rsal_Id" />
-                <ScalarProperty Name="pres_Id" ColumnName="pres_Id" />
                 <ScalarProperty Name="hsal_FechaSalida" ColumnName="hsal_FechaSalida" />
                 <ScalarProperty Name="hsal_Observacion" ColumnName="hsal_Observacion" />
                 <ScalarProperty Name="hsal_Estado" ColumnName="hsal_Estado" />
@@ -15427,23 +15403,6 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
                 <ScalarProperty Name="per_FechaCrea" ColumnName="per_FechaCrea" />
                 <ScalarProperty Name="per_UsuarioModifica" ColumnName="per_UsuarioModifica" />
                 <ScalarProperty Name="per_FechaModifica" ColumnName="per_FechaModifica" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbPrestaciones">
-            <EntityTypeMapping TypeName="ERP_GMEDINAModel.tbPrestaciones">
-              <MappingFragment StoreEntitySet="tbPrestaciones">
-                <ScalarProperty Name="pres_Id" ColumnName="pres_Id" />
-                <ScalarProperty Name="pres_DerechoPreaviso" ColumnName="pres_DerechoPreaviso" />
-                <ScalarProperty Name="pres_Preaviso" ColumnName="pres_Preaviso" />
-                <ScalarProperty Name="pres_DecimoTercer" ColumnName="pres_DecimoTercer" />
-                <ScalarProperty Name="pres_Catorceavo" ColumnName="pres_Catorceavo" />
-                <ScalarProperty Name="pres_Estado" ColumnName="pres_Estado" />
-                <ScalarProperty Name="pres_RazonInactivo" ColumnName="pres_RazonInactivo" />
-                <ScalarProperty Name="pres_UsuarioCrea" ColumnName="pres_UsuarioCrea" />
-                <ScalarProperty Name="pres_FechaCrea" ColumnName="pres_FechaCrea" />
-                <ScalarProperty Name="pres_UsuarioModifica" ColumnName="pres_UsuarioModifica" />
-                <ScalarProperty Name="pres_FechaModifica" ColumnName="pres_FechaModifica" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -16517,6 +16476,13 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
           <FunctionImportMapping FunctionImportName="UDP_RRHH_tbTitulos_Insert" FunctionName="ERP_GMEDINAModel.Store.UDP_RRHH_tbTitulos_Insert" />
           <FunctionImportMapping FunctionImportName="UDP_RRHH_tbTitulos_Restore" FunctionName="ERP_GMEDINAModel.Store.UDP_RRHH_tbTitulos_Restore" />
           <FunctionImportMapping FunctionImportName="UDP_RRHH_tbTitulos_Update" FunctionName="ERP_GMEDINAModel.Store.UDP_RRHH_tbTitulos_Update" />
+          <FunctionImportMapping FunctionImportName="UDP_Plani_EmpleadosPorAreas_Select" FunctionName="ERP_GMEDINAModel.Store.UDP_Plani_EmpleadosPorAreas_Select" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ERP_GMEDINAModel.UDP_Plani_EmpleadosPorAreas_Select_Result">
+                <ScalarProperty Name="JSON_F52E2B61_18A1_11d1_B105_00805F49916B" ColumnName="JSON_F52E2B61-18A1-11d1-B105-00805F49916B" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

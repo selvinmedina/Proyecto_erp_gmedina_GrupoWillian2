@@ -6,10 +6,10 @@ function _ajax(params, uri, type, callback, enviar) {
 		dataType: 'json',
 		contentType: 'application/json; charset=utf-8',
 		data: JSON.stringify(params),
-		beforeSend: function () {
+		beforeSend: function() {
 			enviar();
 		},
-		success: function (data) {
+		success: function(data) {
 			callback(data);
 		}
 	});
@@ -29,7 +29,7 @@ function spinner() {
 }
 
 const cargarSpinnerFecha = $('#cargarSpinner');
-$(document).ready(function () {
+$(document).ready(function() {
 	$('#datepicker .input-group.date')
 		.datepicker({
 			todayBtn: 'linked',
@@ -39,7 +39,7 @@ $(document).ready(function () {
 			autoclose: true,
 			format: 'yyyy/mm/dd'
 		})
-		.on('changeDate', function (e) {
+		.on('changeDate', function(e) {
 			let fechaFin = inputFechaFin.val();
 
 			if (validarCampos()) {
@@ -60,7 +60,7 @@ $(document).ready(function () {
 						console.log(data);
 
 						mes = data.sMeses;
-						anio = data.sAnios
+						anio = data.sAnios;
 
 						//Metodo 1
 
@@ -91,56 +91,65 @@ $(document).ready(function () {
 			}
 		});
 
-	$(".select2_demo_3").select2({
-		'placeholder': "Seleccione un empleado",
-		'allowClear': true,
-		"language": {
-			"noResults": function () {
-				return "Resultados no encontrados";
-			},
-			'searching': function () {
-				return "Buscando...";
-			}
+	_ajax(
+		null,
+		'Liquidacion/GetEmpleadosAreas',
+		'GET',
+		(dataa) => {
+			console.log(dataa);
+			$('.select2_demo_3').select2({
+				data: [
+					{ id: 0, text: 'selvin' },
+					{ id: 0, text: 'Walter' }
+				]
+				// placeholder: 'Seleccione un empleado',
+				// language: {
+				// 	noResults: function() {
+				// 		return 'Resultados no encontrados';
+				// 	},
+				// 	searching: function() {
+				// 		return 'Buscando...';
+				// 	}
+				// },
+				// ajax: {
+				// 	url: 'Liquidacion/GetEmpleadosAreas',
+				// 	type: 'GET',
+				// 	processResults: function(data) {
+				// 		// Transforms the top-level key of the response object from 'items' to 'results'
+				// 		return {
+				// 			results: data.items
+				// 		};
+				// 	}
+				// }
+			});
 		},
-	});
-
-
-	// $(".js-data-example-ajax").select2({
-	// 	multiple: true,
-	// 	minimumInputLength: 1,
-	// 	ajax: {
-	// 		url: "https://api.myjson.com/bins/55p57",
-	// 		dataType: 'json',
-	// 		delay: 250,
-	// 		data: function (params) {
-	// 			return {
-	// 				q: params.term, // search term
-	// 			};
-	// 		}
-	// 	},
-	// 	//escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-
-	// });
-
-
-
-	var id = {
-		"data" : {
-			'text': 'Mountain Time Zone',
-			'children': [
-			  {
-				'id': 'CA',
-				'text': 'California'
-			  },
-			  {
-				'id': 'CO',
-				'text': 'Colorado'
-			  }
-			]
+		() => {
+			console.log('enviando..');
 		}
+	);
+
+	var dfd = {
+		results: [
+			{
+				text: 'informatica',
+				children: [
+					{ id: 1, text: 'Kevin Caballero' },
+					{ id: 2, text: 'Juan sanchez' },
+					{ id: 3, text: 'Elder sanchez' },
+					{ id: 4, text: 'C sanchez' },
+					{ id: 5, text: 'D sanchez' },
+					{ id: 6, text: 'E sanchez' },
+					{ id: 7, text: 'Keneth Sanchez' },
+					{ id: 8, text: 'Andrea Flores' },
+					{ id: 9, text: 'Nicol Hernandez' },
+					{ id: 10, text: 'Hernan Lopez' },
+					{ id: 11, text: 'Alejandra Nuñez' },
+					{ id: 12, text: 'Maria Florez' },
+					{ id: 13, text: 'Marlom Flores' }
+				]
+			}
+		]
 	};
-
-
 	function validarCampos() {
 		var todoBien = true;
 
