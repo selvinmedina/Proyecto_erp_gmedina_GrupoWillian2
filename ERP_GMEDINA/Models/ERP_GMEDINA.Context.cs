@@ -2869,13 +2869,9 @@ namespace ERP_GMEDINA.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("UDP_RRHH_tbTitulos_Update", titu_IdParameter, titu_DescripcionParameter, titu_UsuarioModificaParameter, titu_FechaModificaParameter);
         }
     
-        public virtual ObjectResult<UDP_Plani_EmpleadosPorAreas_Select_Result> UDP_Plani_EmpleadosPorAreas_Select(string filtro)
+        public virtual ObjectResult<UDP_Plani_EmpleadosPorAreas_Select_Result> UDP_Plani_EmpleadosPorAreas_Select()
         {
-            var filtroParameter = filtro != null ?
-                new ObjectParameter("filtro", filtro) :
-                new ObjectParameter("filtro", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UDP_Plani_EmpleadosPorAreas_Select_Result>("UDP_Plani_EmpleadosPorAreas_Select", filtroParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UDP_Plani_EmpleadosPorAreas_Select_Result>("UDP_Plani_EmpleadosPorAreas_Select");
         }
     }
 }

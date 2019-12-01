@@ -26,16 +26,16 @@ namespace ERP_GMEDINA.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetEmpleadosAreas(string filtro)
+        public string GetEmpleadosAreas()
         {
             using (Models.ERP_GMEDINAEntities db = new Models.ERP_GMEDINAEntities())
             {
-                var jsonAreasEmpleados = db.UDP_Plani_EmpleadosPorAreas_Select(filtro);
+                var jsonAreasEmpleados = db.UDP_Plani_EmpleadosPorAreas_Select();
                 var json = "";
 
-                foreach(UDP_Plani_EmpleadosPorAreas_Select_Result result in jsonAreasEmpleados)
+                foreach (UDP_Plani_EmpleadosPorAreas_Select_Result result in jsonAreasEmpleados)
                 {
-                    json = result.JSON_F52E2B61_18A1_11d1_B105_00805F49916B;
+                    json = result.json;
                 }
 
 
@@ -76,7 +76,7 @@ namespace ERP_GMEDINA.Controllers
                 //Retornar como un elemento padre la Area, y elemento hijo los empleados
 
                 //Filtrar que los empleados no se hayan salido
-                return Json(json, JsonRequestBehavior.AllowGet);
+                return json;
             }
         }
     }

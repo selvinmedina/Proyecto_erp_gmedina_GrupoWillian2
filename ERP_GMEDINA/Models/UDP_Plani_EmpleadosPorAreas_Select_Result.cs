@@ -13,6 +13,6 @@ namespace ERP_GMEDINA.Models
     
     public partial class UDP_Plani_EmpleadosPorAreas_Select_Result
     {
-        public string JSON_F52E2B61_18A1_11d1_B105_00805F49916B { get; set; }
+        public string json { get; set; }
     }
 }

@@ -92,64 +92,26 @@ $(document).ready(function() {
 		});
 
 	_ajax(
-		null,
+		'Al',
 		'Liquidacion/GetEmpleadosAreas',
 		'GET',
-		(dataa) => {
-			console.log(dataa);
-			$('.select2_demo_3').select2({
-				data: [
-					{ id: 0, text: 'selvin' },
-					{ id: 0, text: 'Walter' }
-				]
-				// placeholder: 'Seleccione un empleado',
-				// language: {
-				// 	noResults: function() {
-				// 		return 'Resultados no encontrados';
-				// 	},
-				// 	searching: function() {
-				// 		return 'Buscando...';
-				// 	}
-				// },
-				// ajax: {
-				// 	url: 'Liquidacion/GetEmpleadosAreas',
-				// 	type: 'GET',
-				// 	processResults: function(data) {
-				// 		// Transforms the top-level key of the response object from 'items' to 'results'
-				// 		return {
-				// 			results: data.items
-				// 		};
-				// 	}
-				// }
+		(data) => {
+			console.log(data);
+			$('#cmbxEmpleados').select2({
+				language: {
+					noResults: function() {
+						return 'Resultados no encontrados';
+					},
+					searching: function() {
+						return 'Buscando...';
+					}
+				},
+				data: data.results
 			});
 		},
-		() => {
-			console.log('enviando..');
-		}
+		() => {}
 	);
 
-	var dfd = {
-		results: [
-			{
-				text: 'informatica',
-				children: [
-					{ id: 1, text: 'Kevin Caballero' },
-					{ id: 2, text: 'Juan sanchez' },
-					{ id: 3, text: 'Elder sanchez' },
-					{ id: 4, text: 'C sanchez' },
-					{ id: 5, text: 'D sanchez' },
-					{ id: 6, text: 'E sanchez' },
-					{ id: 7, text: 'Keneth Sanchez' },
-					{ id: 8, text: 'Andrea Flores' },
-					{ id: 9, text: 'Nicol Hernandez' },
-					{ id: 10, text: 'Hernan Lopez' },
-					{ id: 11, text: 'Alejandra Nuñez' },
-					{ id: 12, text: 'Maria Florez' },
-					{ id: 13, text: 'Marlom Flores' }
-				]
-			}
-		]
-	};
 	function validarCampos() {
 		var todoBien = true;
 

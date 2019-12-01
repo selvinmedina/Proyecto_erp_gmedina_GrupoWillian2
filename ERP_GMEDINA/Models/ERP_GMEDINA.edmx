@@ -4812,9 +4812,7 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
           <Parameter Name="cc_PorcentajeComision" Type="decimal" Mode="In" />
           <Parameter Name="cc_TotalVenta" Type="decimal" Mode="In" />
         </Function>
-        <Function Name="UDP_Plani_EmpleadosPorAreas_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Plani">
-          <Parameter Name="filtro" Type="nvarchar" Mode="In" />
-        </Function>
+        <Function Name="UDP_Plani_EmpleadosPorAreas_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Plani" />
         <Function Name="UDP_Plani_tbAdelantoSueldo_Activar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Plani">
           <Parameter Name="adsu_IdAdelantoSueldo" Type="int" Mode="In" />
           <Parameter Name="adsu_UsuarioModifica" Type="int" Mode="In" />
@@ -14143,7 +14141,6 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
             <End Role="tbEmpleadoComisiones" EntitySet="tbEmpleadoComisiones" />
           </AssociationSet>
           <FunctionImport Name="UDP_Plani_EmpleadosPorAreas_Select" ReturnType="Collection(ERP_GMEDINAModel.UDP_Plani_EmpleadosPorAreas_Select_Result)" >
-            <Parameter Name="filtro" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="UDP_Plani_DecimoTercerMes_RPT_Result">
@@ -14369,7 +14366,7 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
           </ReferentialConstraint>
         </Association>
         <ComplexType Name="UDP_Plani_EmpleadosPorAreas_Select_Result">
-          <Property Type="String" Name="JSON_F52E2B61_18A1_11d1_B105_00805F49916B" Nullable="true" />
+          <Property Type="String" Name="json" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -16479,7 +16476,7 @@ advertencia 6002: La tabla o vista 'ERP_GMEDINA.rrhh.V_Departamentos' no tiene d
           <FunctionImportMapping FunctionImportName="UDP_Plani_EmpleadosPorAreas_Select" FunctionName="ERP_GMEDINAModel.Store.UDP_Plani_EmpleadosPorAreas_Select" >
             <ResultMapping>
               <ComplexTypeMapping TypeName="ERP_GMEDINAModel.UDP_Plani_EmpleadosPorAreas_Select_Result">
-                <ScalarProperty Name="JSON_F52E2B61_18A1_11d1_B105_00805F49916B" ColumnName="JSON_F52E2B61-18A1-11d1-B105-00805F49916B" />
+                <ScalarProperty Name="json" ColumnName="json" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
