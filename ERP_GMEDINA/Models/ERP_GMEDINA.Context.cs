@@ -133,6 +133,14 @@ namespace ERP_GMEDINA.Models
         public virtual DbSet<tbDeduccionAFP> tbDeduccionAFP { get; set; }
         public virtual DbSet<tbHistorialAmonestaciones> tbHistorialAmonestaciones { get; set; }
         public virtual DbSet<tbHistorialSalidas> tbHistorialSalidas { get; set; }
+        public virtual DbSet<V_DecimoTercerMes_RPT> V_DecimoTercerMes_RPT { get; set; }
+        public virtual DbSet<V_IHSS_RPT> V_IHSS_RPT { get; set; }
+        public virtual DbSet<V_Plani_EmpleadoPorPlanilla> V_Plani_EmpleadoPorPlanilla { get; set; }
+        public virtual DbSet<V_Plani_FechaPlanilla> V_Plani_FechaPlanilla { get; set; }
+        public virtual DbSet<V_Plani_TipoPlani> V_Plani_TipoPlani { get; set; }
+        public virtual DbSet<V_RRHH_HistorialCargos> V_RRHH_HistorialCargos { get; set; }
+        public virtual DbSet<V_RRHH_HistorialContrataciones> V_RRHH_HistorialContrataciones { get; set; }
+        public virtual DbSet<V_RRHH_HistorialHorasTrabajadas> V_RRHH_HistorialHorasTrabajadas { get; set; }
     
         public virtual ObjectResult<UDP_Plani_CatalogoDeduccionesEdit_Select_Result> UDP_Plani_CatalogoDeduccionesEdit_Select(Nullable<int> cpla_IdPlanilla)
         {
