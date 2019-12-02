@@ -16,6 +16,10 @@ function _ajax(params, uri, type, callback, enviar) {
 }
 var fecha = new Date();
 const inputFechaFin = $('#fechaFin');
+const cargarSpinnerFecha = $('#cargarSpinner');
+const ddlEmpleados = $('#cmbxEmpleados');
+const validacionSelectFechaFin = $('#validacionSelectFechaFin');
+const validacionSelectEmpleado = $('#validacionSelectEmpleado');
 
 //Mostrar el spinner
 function spinner() {
@@ -28,7 +32,14 @@ function spinner() {
              </div>`;
 }
 
-const cargarSpinnerFecha = $('#cargarSpinner');
+$(ddlEmpleados).change(() => {
+	if (ddlEmpleados.val() != '') validacionSelectEmpleado.hide();
+});
+
+$(inputFechaFin).change(() => {
+	if (inputFechaFin.val() != '') validacionSelectFechaFin.hide();
+});
+
 $(document).ready(function() {
 	$('#datepicker .input-group.date')
 		.datepicker({
@@ -41,23 +52,22 @@ $(document).ready(function() {
 		})
 		.on('changeDate', function(e) {
 			let fechaFin = inputFechaFin.val();
-
+			let idEmpleado = ddlEmpleados.val();
 			if (validarCampos()) {
 				_ajax(
 					{
-						idEmpleado: 1,
+						idEmpleado: idEmpleado,
 						fechaFin: fechaFin
 					},
-					'/Liquidacion/GetFechaInicioFechaFin',
+					'/Liquidacion/GetInfoEmpleado',
 					'POST',
 					(data) => {
+						console.log(data);
 						cargarSpinnerFecha.html();
 						cargarSpinnerFecha.hide();
 						var mes = 0;
 						var anio = 0;
 						var dias = 0;
-
-						console.log(data);
 
 						mes = data.sMeses;
 						anio = data.sAnios;
@@ -70,18 +80,6 @@ $(document).ready(function() {
 							dias = data.sDias;
 						}
 						mostrarTiempoTrabajado(dias, mes, anio);
-
-						//Metodo 2
-						// while (data >= 360) {
-						// 	++anio;
-						// 	data -= 360;
-						// }
-
-						// while (data >= 30) {
-						// 	++mes;
-						// 	data -= 30;
-						// }
-						//mostrarTiempoTrabajado(data, mes, anio);
 					},
 					(enviar) => {
 						cargarSpinnerFecha.html(spinner());
@@ -91,16 +89,18 @@ $(document).ready(function() {
 			}
 		});
 
+	//Llengar DDL Areas con Empleados
 	_ajax(
-		'Al',
+		null,
 		'Liquidacion/GetEmpleadosAreas',
 		'GET',
 		(data) => {
-			console.log(data);
 			$('#cmbxEmpleados').select2({
+				placeholder: 'Seleccione un empleado',
+				allowClear: true,
 				language: {
 					noResults: function() {
-						return 'Resultados no encontrados';
+						return 'Resultados no encontrados.';
 					},
 					searching: function() {
 						return 'Buscando...';
@@ -111,17 +111,24 @@ $(document).ready(function() {
 		},
 		() => {}
 	);
-
-	function validarCampos() {
-		var todoBien = true;
-
-		//Validar que no este vacio el campo de fecha de despido
-		if (inputFechaFin.val() == '') {
-			todoBien = false;
-		}
-		return todoBien;
-	}
 });
+function validarCampos() {
+	var todoBien = true;
+
+	//Validar que el drop down list tenga seleccionado un empleado.
+	if (ddlEmpleados.val() == '') {
+		todoBien = false;
+		validacionSelectEmpleado.show();
+	}
+
+	//Validar que no este vacio el campo de fecha de despido.
+	if (inputFechaFin.val() == '') {
+		todoBien = false;
+		validacionSelectFechaFin.show();
+	}
+
+	return todoBien;
+}
 
 function mostrarTiempoTrabajado(dDias, dMeses, dAnios) {
 	$('#h3Dias').html(dDias);

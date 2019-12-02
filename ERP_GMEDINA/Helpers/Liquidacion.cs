@@ -11,9 +11,16 @@ namespace ERP_GMEDINA.Helpers
         public static object IntervaloEntreFechas(int idEmpleado, DateTime fechaFinal, ref int sDias, ref int sMeses, ref int sAnios, out DateTime dFechaInicial)
         {
             DateTime dFechaFinal = fechaFinal;
+            dFechaInicial = DateTime.MinValue;
             using (ERP_GMEDINAEntities db = new ERP_GMEDINAEntities())
             {
-                dFechaInicial = db.tbEmpleados.Where(x => x.emp_Id == 1).Select(x => x.emp_Fechaingreso).First();
+                try
+                {
+                    dFechaInicial = db.tbEmpleados.Where(x => x.emp_Id == idEmpleado).Select(x => x.emp_Fechaingreso).FirstOrDefault();
+                }
+                catch (Exception ex)
+                {
+                }
             }
 
             TimeSpan difFechas = dFechaFinal - dFechaInicial;
