@@ -54,14 +54,6 @@ namespace ERP_GMEDINA.Helpers
 
             dias = (diasFechaFinal - diasFechaInicio) + 1;
 
-            if (dias == -30)
-                dias = 0;
-            if (dias == -31)
-                dias = 29;
-            if (dias == -32)
-                dias = 28;
-
-
             if (mesFechaFinal < mesFechaInicio)
             {
                 mesFechaFinal += 12;
@@ -78,6 +70,9 @@ namespace ERP_GMEDINA.Helpers
             sDias = (dias);
             sMeses = meses;
             sAnios = anios;
+
+            if (sDias < 0)
+                sDias += 30;
 
             return new { sDias, sMeses, sAnios };
 

@@ -33,12 +33,21 @@ function spinner() {
 }
 
 $(ddlEmpleados).change(() => {
-	if (ddlEmpleados.val() != '') validacionSelectEmpleado.hide();
+	const ddlEmpleadosLleno = ddlEmpleados.val() != '';
+	if (ddlEmpleadosLleno) validacionSelectEmpleado.hide();
+
+	const fechaFinVal = inputFechaFin.val();
+	const ddlEmpleadosVal = ddlEmpleados.val();
+	if(ddlEmpleadosLleno && inputFechaFinLlena())
+	if (validarCampos()) {
+		obtenerDatosEmpleados(ddlEmpleadosVal, fechaFinVal);
+	}
 });
 
 $(inputFechaFin).change(() => {
-	if (inputFechaFin.val() != '') validacionSelectFechaFin.hide();
+	if (inputFechaFinLlena()) validacionSelectFechaFin.hide();
 });
+
 
 $(document).ready(function() {
 	$('#datepicker .input-group.date')
@@ -51,41 +60,10 @@ $(document).ready(function() {
 			format: 'yyyy/mm/dd'
 		})
 		.on('changeDate', function(e) {
-			let fechaFin = inputFechaFin.val();
-			let idEmpleado = ddlEmpleados.val();
 			if (validarCampos()) {
-				_ajax(
-					{
-						idEmpleado: idEmpleado,
-						fechaFin: fechaFin
-					},
-					'/Liquidacion/GetInfoEmpleado',
-					'POST',
-					(data) => {
-						console.log(data);
-						cargarSpinnerFecha.html();
-						cargarSpinnerFecha.hide();
-						var mes = 0;
-						var anio = 0;
-						var dias = 0;
-
-						mes = data.sMeses;
-						anio = data.sAnios;
-
-						//Metodo 1
-
-						if (data.sDias < 0) {
-							dias = data.sDias + 30;
-						} else {
-							dias = data.sDias;
-						}
-						mostrarTiempoTrabajado(dias, mes, anio);
-					},
-					(enviar) => {
-						cargarSpinnerFecha.html(spinner());
-						cargarSpinnerFecha.show();
-					}
-				);
+				const fechaFinVal = inputFechaFin.val();
+				const ddlEmpleadosVal = ddlEmpleados.val();
+				obtenerDatosEmpleados(ddlEmpleadosVal, fechaFinVal);
 			}
 		});
 
@@ -112,6 +90,37 @@ $(document).ready(function() {
 		() => {}
 	);
 });
+function obtenerDatosEmpleados(idEmpleado, fechaFin) {
+	_ajax({
+		idEmpleado: idEmpleado,
+		fechaFin: fechaFin
+	}, '/Liquidacion/GetInfoEmpleado', 'POST', (data) => {
+		console.log(data);
+		cargarSpinnerFecha.html();
+		cargarSpinnerFecha.hide();
+		var mes = 0;
+		var anio = 0;
+		var dias = 0;
+		mes = data.sMeses;
+		anio = data.sAnios;
+		//Metodo 1
+		if (data.sDias < 0) {
+			dias = data.sDias + 30;
+		}
+		else {
+			dias = data.sDias;
+		}
+		mostrarTiempoTrabajado(dias, mes, anio);
+	}, (enviar) => {
+		cargarSpinnerFecha.html(spinner());
+		cargarSpinnerFecha.show();
+	});
+}
+
+function inputFechaFinLlena() {
+	return inputFechaFin.val() != '';
+}
+
 function validarCampos() {
 	var todoBien = true;
 
