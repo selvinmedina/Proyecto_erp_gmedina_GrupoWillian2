@@ -12,25 +12,24 @@ namespace ERP_GMEDINA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbHistorialSalidas
+    public partial class tbDeduccionAFP
     {
-        public int hsal_Id { get; set; }
+        public int dafp_Id { get; set; }
+        public decimal dafp_AporteLps { get; set; }
+        public decimal dafp_AporteDol { get; set; }
+        public int afp_Id { get; set; }
+        public int cde_IdDeducciones { get; set; }
         public int emp_Id { get; set; }
-        public int tsal_Id { get; set; }
-        public int rsal_Id { get; set; }
-        public System.DateTime hsal_FechaSalida { get; set; }
-        public string hsal_Observacion { get; set; }
-        public bool hsal_Estado { get; set; }
-        public string hsal_RazonInactivo { get; set; }
-        public int hsal_UsuarioCrea { get; set; }
-        public System.DateTime hsal_FechaCrea { get; set; }
-        public Nullable<int> hsal_UsuarioModifica { get; set; }
-        public Nullable<System.DateTime> hsal_FechaModifica { get; set; }
+        public int dafp_UsuarioCrea { get; set; }
+        public System.DateTime dafp_FechaCrea { get; set; }
+        public Nullable<int> dafp_UsuarioModifica { get; set; }
+        public Nullable<System.DateTime> dafp_FechaModifica { get; set; }
+        public bool dafp_Activo { get; set; }
     
         public virtual tbUsuario tbUsuario { get; set; }
         public virtual tbUsuario tbUsuario1 { get; set; }
+        public virtual tbAFP tbAFP { get; set; }
+        public virtual tbCatalogoDeDeducciones tbCatalogoDeDeducciones { get; set; }
         public virtual tbEmpleados tbEmpleados { get; set; }
-        public virtual tbRazonSalidas tbRazonSalidas { get; set; }
-        public virtual tbTipoSalidas tbTipoSalidas { get; set; }
     }
 }

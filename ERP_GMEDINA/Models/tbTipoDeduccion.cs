@@ -19,6 +19,7 @@ namespace ERP_GMEDINA.Models
         {
             this.tbCatalogoDeDeducciones = new HashSet<tbCatalogoDeDeducciones>();
             this.tbISR = new HashSet<tbISR>();
+            this.tbAFP = new HashSet<tbAFP>();
         }
     
         public int tde_IdTipoDedu { get; set; }
@@ -35,5 +36,7 @@ namespace ERP_GMEDINA.Models
         public virtual ICollection<tbCatalogoDeDeducciones> tbCatalogoDeDeducciones { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbISR> tbISR { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tbAFP> tbAFP { get; set; }
     }
 }

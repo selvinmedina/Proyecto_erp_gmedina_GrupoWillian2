@@ -83,7 +83,6 @@ namespace ERP_GMEDINA.Models
         public virtual DbSet<tbHistorialLiquidaciones> tbHistorialLiquidaciones { get; set; }
         public virtual DbSet<tbHistorialPermisos> tbHistorialPermisos { get; set; }
         public virtual DbSet<tbHistorialRefrendamientos> tbHistorialRefrendamientos { get; set; }
-        public virtual DbSet<tbHistorialSalidas> tbHistorialSalidas { get; set; }
         public virtual DbSet<tbHistorialVacaciones> tbHistorialVacaciones { get; set; }
         public virtual DbSet<tbHorarios> tbHorarios { get; set; }
         public virtual DbSet<tbIdiomaPersona> tbIdiomaPersona { get; set; }
@@ -92,7 +91,6 @@ namespace ERP_GMEDINA.Models
         public virtual DbSet<tbJornadas> tbJornadas { get; set; }
         public virtual DbSet<tbNacionalidades> tbNacionalidades { get; set; }
         public virtual DbSet<tbPersonas> tbPersonas { get; set; }
-        public virtual DbSet<tbPrestaciones> tbPrestaciones { get; set; }
         public virtual DbSet<tbRazonSalidas> tbRazonSalidas { get; set; }
         public virtual DbSet<tbRequisiciones> tbRequisiciones { get; set; }
         public virtual DbSet<tbSeleccionCandidatos> tbSeleccionCandidatos { get; set; }
@@ -131,6 +129,10 @@ namespace ERP_GMEDINA.Models
         public virtual DbSet<V_TechosDeducciones> V_TechosDeducciones { get; set; }
         public virtual DbSet<V_TipoDeduccion> V_TipoDeduccion { get; set; }
         public virtual DbSet<V_Departamentos> V_Departamentos { get; set; }
+        public virtual DbSet<tbAFP> tbAFP { get; set; }
+        public virtual DbSet<tbDeduccionAFP> tbDeduccionAFP { get; set; }
+        public virtual DbSet<tbHistorialAmonestaciones> tbHistorialAmonestaciones { get; set; }
+        public virtual DbSet<tbHistorialSalidas> tbHistorialSalidas { get; set; }
     
         public virtual ObjectResult<UDP_Plani_CatalogoDeduccionesEdit_Select_Result> UDP_Plani_CatalogoDeduccionesEdit_Select(Nullable<int> cpla_IdPlanilla)
         {
