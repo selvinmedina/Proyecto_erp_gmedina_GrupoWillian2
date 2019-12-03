@@ -19,8 +19,7 @@ namespace ERP_GMEDINA.Controllers
         [HttpPost]
         public JsonResult GetInfoEmpleado(int idEmpleado, DateTime fechaFin)
         {
-            int sDias = 0, sMeses = 0, sAnios = 0;
-            DateTime fechaInicio;
+            double anios = 0, meses = 0, dias = 0;
             object fecha, json;
 
             using (ERP_GMEDINAEntities db = new ERP_GMEDINAEntities())
@@ -52,21 +51,37 @@ namespace ERP_GMEDINA.Controllers
                                       ts.sue_Cantidad != null
                                     select new
                                     {
-                                        numeroIdentidad = tp.per_Identidad,
+                                        numeroIdentidad = tp.per_Identidad.Substring(0, 4) + "-" + tp.per_Identidad.Substring(4, 4) + "-" + tp.per_Identidad.Substring(9, tp.per_Identidad.Length - 9),
                                         nombreEmpleado = tp.per_Nombres,
                                         apellidoEmpleado = tp.per_Apellidos,
-                                        fechaNacimiento = (tp.per_FechaNacimiento.Year + "/" + tp.per_FechaNacimiento.Month + "/" + tp.per_FechaNacimiento.Day),
-                                        sexoEmpleado = tp.per_Sexo,
+                                        fechaIngreso = (te.emp_Fechaingreso.Year + "/" +
+                                                       ((te.emp_Fechaingreso.Month > 9) ? te.emp_Fechaingreso.Month.ToString() : "0" + te.emp_Fechaingreso.Month.ToString()) + "/" + 
+                                                       ((te.emp_Fechaingreso.Day > 9) ? te.emp_Fechaingreso.Day.ToString() : "0" + te.emp_Fechaingreso.Day.ToString())),
+                                        sexoEmpleado = (tp.per_Sexo == "m" || tp.per_Sexo == "M") ? "Masculino" : "Femenino",
                                         edadEmpleado = (int?)tp.per_Edad,
                                         descripcionDepartamento = td.depto_Descripcion,
-                                        descripcionArea = ta.area_Descripcion,
                                         descripcionCargo = tc.car_Descripcion,
                                         cantidadSueldo = (decimal?)ts.sue_Cantidad,
                                         descripcionMoneda = ttm.tmon_Descripcion
                                     }).ToList();
 
-                    fecha = Liquidacion.IntervaloEntreFechas(idEmpleado, fechaFin, ref sDias, ref sMeses, ref sAnios, out fechaInicio);
-                    json = new { consulta, fecha };
+                    dias = Liquidacion.Dias360Mes(fechaFin, idEmpleado);
+
+                    while (dias >= 360)
+                    {
+                        dias -= 360;
+                        anios += 1;
+                    }
+
+                    while (dias >= 30)
+                    {
+                        dias -= 30;
+                        meses += 1;
+                    }
+
+
+
+                    json = new { consulta, anios, meses, dias };
                     return Json(json, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception ex)

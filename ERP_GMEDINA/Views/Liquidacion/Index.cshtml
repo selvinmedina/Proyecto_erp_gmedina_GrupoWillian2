@@ -13,19 +13,19 @@
                 <div class="col-lg-4">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="row">
+                            <div class="row m-t-sm">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <select class="form-control" id="cmbxEmpleados">
+                                        <select class="form-control lg" id="cmbxEmpleados">
                                             <option></option>
                                         </select>
                                         <span class="text-danger" hidden id="validacionSelectEmpleado">Por favor, seleccione un empleado.</span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row m-t-sm">
                                 <div class="col-lg-12">
-                                    <div class="form-group" id="datepicker">
+                                    <div class="form-group form-group-sm" id="datepicker">
                                         <div class="input-group date">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" id="fechaFin" readonly style="background-color:white" class="form-control" placeholder="Ingrese la fecha de despido" value="">
                                         </div>
@@ -36,48 +36,72 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-8">
-                    <div class="row">
-                        @*<div class="col-lg-6" id="cargarSpinner
-
-                            </div>*@
-                        @*
-                            nombreEmpleado
-                            apellidoEmpleado
-                            fechaNacimiento
-                            sexoEmpleado
-                            edadEmpleado
-                            descripcionDepartamento
-                            descripcionArea
-                            descripcionCargo
-                            cantidadSueldo
-                            descripcionMoneda
-
-                            empresa domestica
-                        *@
-
-
-                        <div id="tiempoTrabajado">
-                            <div class="col-lg-6">
-                                <ul class="list-group list-inline">
-                                    <li>
-                                        <h3 class="list-group-item"><strong>Dias: </strong> <span class="text-success">&nbsp;5</span> </h3>
-                                        <h3 class="text-center"><strong>Meses: </strong> <span class="text-success">&nbsp;5</span> </h3>
-                                    </li>
-                                </ul>
-                               
-                                @*<h3 class="text-success text-center col-md-offset-1" id="h3Dias">1</h3>*@
-                            </div>
-                            @*<div class="col-lg-2">
-                                <h1 class="text-center">Meses</h1>
-                                <h3 class="text-success text-center" id="h3Meses">11</h3>
-                            </div>
-                            <div class="col-lg-2">
-                                <h1 class="text-center">Años</h1>
-                                <h3 class="text-success text-center" id="h3Anios">3</h3>
-                            </div>
-                        </div>*@
+                <div class="col-lg-8" id="cargarSpinnerDatosColaborador" hidden>
+                </div>
+                <div class="col-lg-8" id="datosColaborador" hidden>
+                    <div class="row m-t-sm">
+                        <div class="col-lg-4">
+                            <strong>Años laborados:</strong> <span class="text-success" id="spanAniosLaborados"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Meses laborados:</strong> <span class="text-success" id="spanMesesLaborados"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Días laborados: </strong> <span class="text-success" id="spanDiasLaborados"></span>
+                        </div>
                     </div>
+                    <div class="row m-t-sm">
+                        <div class="col-lg-4">
+                            <strong>Nombre: </strong> <span class="text-success text-capitalize" id="spanNombreEmpleado"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Apellido: </strong> <span class="text-success text-capitalize" id="spanApellidoEmpleado"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Edad: </strong> <span class="text-success" id="spanEdadEmpleado"></span>
+                        </div>
+                    </div>
+                    <div class="row m-t-sm">
+                        <div class="col-lg-4">
+                            <strong>Cargo: </strong> <span class="text-success" id="spanCargoEmpleado"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Sexo: </strong> <span class="text-success" id="spanSexoEmpleado"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Departamento: </strong> <span class="text-success" id="spanDepartamentoEmpleado"></span>
+                        </div>
+                    </div>
+                    <div class="row m-t-sm">
+                        <div class="col-lg-4">
+                            <strong>Num. Identidad: </strong> <span class="text-success" id="spanIdentidadEmpleado"></span>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Sueldo: </strong> <span class="text-success" id="spanSueldoEmpleado"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Fecha de Ingreso: </strong> <span class="text-success" id="spanFechaIngresoEmpleado"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="row" hidden id="cargarSpinnerSalarios">
+            </div>
+            <div class="row" id="Salarios" hidden>
+                <div class="col-lg-2">
+                    <strong class="h6">Salario(Calculo): </strong> <span class="text-success h5" id="spanSalario">2400</span>&nbsp; &nbsp;
+                </div>
+                <div class="col-lg-3">
+                    <strong class="h6">Salario Ordinario Diario: </strong> <span class="text-success h5" id="spanSalarioOrdinarioDiario">1500</span>&nbsp; &nbsp;
+                </div>
+                <div class="col-lg-4">
+                    <strong class="h6">Salario Ordinario Promedio Diario: </strong> <span class="text-success h5" id="spanSalarioOrdinarioPromedioDiario">1300</span>&nbsp; &nbsp;
+                </div>
+                <div class="col-lg-3">
+                    <strong class="h6">Salario Promedio Diario: </strong> <span class="text-success h5" id="spanSalarioPromedioDiario">1500</span>&nbsp; &nbsp;
                 </div>
             </div>
         </div>

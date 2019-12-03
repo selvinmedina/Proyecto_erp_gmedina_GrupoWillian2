@@ -14,12 +14,38 @@ function _ajax(params, uri, type, callback, enviar) {
 		}
 	});
 }
+
+//#region Variables Globales
 var fecha = new Date();
-const inputFechaFin = $('#fechaFin');
-const cargarSpinnerFecha = $('#cargarSpinner');
-const ddlEmpleados = $('#cmbxEmpleados');
-const validacionSelectFechaFin = $('#validacionSelectFechaFin');
-const validacionSelectEmpleado = $('#validacionSelectEmpleado');
+// Inputs divs y ddl
+const inputFechaFin = $('#fechaFin'),
+	ddlEmpleados = $('#cmbxEmpleados'),
+	validacionSelectFechaFin = $('#validacionSelectFechaFin'),
+	validacionSelectEmpleado = $('#validacionSelectEmpleado'),
+	cargarSpinnerDatosColaborador = $('#cargarSpinnerDatosColaborador'),
+	cargarSpinnerSalarios = $('#cargarSpinnerSalarios'),
+	divSalarios = $('#Salarios'),
+	divDatosColaborador = $('#datosColaborador'),
+	// Datos del empleado
+	spanDiasLaborados = $('#spanDiasLaborados'),
+	spanMesesLaborados = $('#spanMesesLaborados'),
+	spanAniosLaborados = $('#spanAniosLaborados'),
+	spanNombreEmpleado = $('#spanNombreEmpleado'),
+	spanApellidoEmpleado = $('#spanApellidoEmpleado'),
+	spanEdadEmpleado = $('#spanEdadEmpleado'),
+	spanSexoEmpleado = $('#spanSexoEmpleado'),
+	spanDepartamentoEmpleado = $('#spanDepartamentoEmpleado'),
+	spanIdentidadEmpleado = $('#spanIdentidadEmpleado'),
+	spanSueldoEmpleado = $('#spanSueldoEmpleado'),
+	spanCargoEmpleado = $('#spanCargoEmpleado'),
+	spanFechaIngresoEmpleado = $('#spanFechaIngresoEmpleado'),
+	// Salarios
+	spanSalario = $('#spanSalario'),
+	spanSalarioOrdinarioDiario = $('#spanSalarioOrdinarioDiario'),
+	spanSalarioOrdinarioPromedioDiario = $('#spanSalarioOrdinarioPromedioDiario'),
+	spanSalarioPromedioDiario = $('#spanSalarioPromedioDiario');
+//const  = $('#');
+//#endregion
 
 //Mostrar el spinner
 function spinner() {
@@ -38,18 +64,18 @@ $(ddlEmpleados).change(() => {
 
 	const fechaFinVal = inputFechaFin.val();
 	const ddlEmpleadosVal = ddlEmpleados.val();
-	if(ddlEmpleadosLleno && inputFechaFinLlena())
-	if (validarCampos()) {
-		obtenerDatosEmpleados(ddlEmpleadosVal, fechaFinVal);
-	}
+	if (ddlEmpleadosLleno && inputFechaFinLlena())
+		if (validarCampos()) {
+			obtenerDatosEmpleados(ddlEmpleadosVal, fechaFinVal);
+		}
 });
 
 $(inputFechaFin).change(() => {
 	if (inputFechaFinLlena()) validacionSelectFechaFin.hide();
 });
 
-
 $(document).ready(function() {
+	validacionSelectEmpleado.val('');
 	$('#datepicker .input-group.date')
 		.datepicker({
 			todayBtn: 'linked',
@@ -91,30 +117,46 @@ $(document).ready(function() {
 	);
 });
 function obtenerDatosEmpleados(idEmpleado, fechaFin) {
-	_ajax({
-		idEmpleado: idEmpleado,
-		fechaFin: fechaFin
-	}, '/Liquidacion/GetInfoEmpleado', 'POST', (data) => {
-		console.log(data);
-		cargarSpinnerFecha.html();
-		cargarSpinnerFecha.hide();
-		var mes = 0;
-		var anio = 0;
-		var dias = 0;
-		mes = data.sMeses;
-		anio = data.sAnios;
-		//Metodo 1
-		if (data.sDias < 0) {
-			dias = data.sDias + 30;
+	_ajax(
+		{
+			idEmpleado: idEmpleado,
+			fechaFin: fechaFin
+		},
+		'/Liquidacion/GetInfoEmpleado',
+		'POST',
+		(data) => {
+			mostrarDatosColaborador(
+				data.consulta[0].nombreEmpleado,
+				data.consulta[0].apellidoEmpleado,
+				data.consulta[0].numeroIdentidad,
+				data.consulta[0].sexoEmpleado,
+				data.consulta[0].edadEmpleado,
+				data.consulta[0].cantidadSueldo,
+				data.consulta[0].descripcionCargo,
+				data.consulta[0].descripcionDepartamento,
+				data.consulta[0].descripcionMoneda,
+				data.consulta[0].fechaIngreso,
+				data.anios,
+				data.meses,
+				data.dias
+			);
+
+			cargarSpinnerDatosColaborador.html('');
+			cargarSpinnerDatosColaborador.hide();
+			divDatosColaborador.show();
+			cargarSpinnerSalarios.html('');
+			cargarSpinnerSalarios.hide();
+			divSalarios.show();
+		},
+		() => {
+			divDatosColaborador.hide();
+			cargarSpinnerDatosColaborador.html(spinner());
+			cargarSpinnerDatosColaborador.show();
+			divSalarios.hide();
+			cargarSpinnerSalarios.html(spinner());
+			cargarSpinnerSalarios.show();
 		}
-		else {
-			dias = data.sDias;
-		}
-		mostrarTiempoTrabajado(dias, mes, anio);
-	}, (enviar) => {
-		cargarSpinnerFecha.html(spinner());
-		cargarSpinnerFecha.show();
-	});
+	);
 }
 
 function inputFechaFinLlena() {
@@ -139,9 +181,31 @@ function validarCampos() {
 	return todoBien;
 }
 
-function mostrarTiempoTrabajado(dDias, dMeses, dAnios) {
-	$('#h3Dias').html(dDias);
-	$('#h3Meses').html(dMeses);
-	$('#h3Anios').html(dAnios);
-	$('#tiempoTrabajado').show();
+function mostrarDatosColaborador(
+	nombreEmpleado,
+	apellidoEmpleado,
+	numeroIdentidad,
+	sexoEmpleado,
+	edadEmpleado,
+	cantidadSueldo,
+	descripcionCargo,
+	descripcionDepartamento,
+	descripcionMoneda,
+	fechaIngreso,
+	anios,
+	meses,
+	dias
+) {
+	spanDiasLaborados.html(dias);
+	spanMesesLaborados.html(meses);
+	spanAniosLaborados.html(anios);
+	spanNombreEmpleado.html(nombreEmpleado);
+	spanApellidoEmpleado.html(apellidoEmpleado);
+	spanEdadEmpleado.html(edadEmpleado);
+	spanSexoEmpleado.html(sexoEmpleado);
+	spanDepartamentoEmpleado.html(descripcionDepartamento);
+	spanIdentidadEmpleado.html(numeroIdentidad);
+	spanSueldoEmpleado.html(cantidadSueldo + ' ' + descripcionMoneda);
+	spanCargoEmpleado.html(descripcionCargo);
+	spanFechaIngresoEmpleado.html(fechaIngreso);
 }
