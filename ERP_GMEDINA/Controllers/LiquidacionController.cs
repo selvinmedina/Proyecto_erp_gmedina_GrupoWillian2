@@ -20,7 +20,7 @@ namespace ERP_GMEDINA.Controllers
         public JsonResult GetInfoEmpleado(int idEmpleado, DateTime fechaFin)
         {
             double anios = 0, meses = 0, dias = 0;
-            object fecha, json;
+            object json;
 
             using (ERP_GMEDINAEntities db = new ERP_GMEDINAEntities())
             {
