@@ -125,6 +125,7 @@ function obtenerDatosEmpleados(idEmpleado, fechaFin) {
 		'/Liquidacion/GetInfoEmpleado',
 		'POST',
 		(data) => {
+			console.log(data);
 			mostrarDatosColaborador(
 				data.consulta[0].nombreEmpleado,
 				data.consulta[0].apellidoEmpleado,
@@ -138,7 +139,11 @@ function obtenerDatosEmpleados(idEmpleado, fechaFin) {
 				data.consulta[0].fechaIngreso,
 				data.anios,
 				data.meses,
-				data.dias
+				data.dias,
+				data.salarios.salario,
+				data.salarios.salarioOrdinarioDiario,
+				data.salarios.salarioOrdinarioPromedioDiario,
+				data.salarios.salarioPromedioDiario
 			);
 
 			cargarSpinnerDatosColaborador.html('');
@@ -182,19 +187,23 @@ function validarCampos() {
 }
 
 function mostrarDatosColaborador(
-	nombreEmpleado,
-	apellidoEmpleado,
-	numeroIdentidad,
-	sexoEmpleado,
-	edadEmpleado,
-	cantidadSueldo,
-	descripcionCargo,
-	descripcionDepartamento,
-	descripcionMoneda,
-	fechaIngreso,
-	anios,
-	meses,
-	dias
+	nombreEmpleado = '',
+	apellidoEmpleado = '',
+	numeroIdentidad = '',
+	sexoEmpleado = '',
+	edadEmpleado = '',
+	cantidadSueldo = '',
+	descripcionCargo = '',
+	descripcionDepartamento = '',
+	descripcionMoneda = '',
+	fechaIngreso = '',
+	anios = '',
+	meses = '',
+	dias = '',
+	salario = '',
+	salarioOrdinarioDiario = '',
+	salarioOrdinarioPromedioDiario = '',
+	salarioPromedioDiario = ''
 ) {
 	spanDiasLaborados.html(dias);
 	spanMesesLaborados.html(meses);
@@ -208,4 +217,8 @@ function mostrarDatosColaborador(
 	spanSueldoEmpleado.html(cantidadSueldo + ' ' + descripcionMoneda);
 	spanCargoEmpleado.html(descripcionCargo);
 	spanFechaIngresoEmpleado.html(fechaIngreso);
+	spanSalario.html(salario);
+	spanSalarioOrdinarioDiario.html(salarioOrdinarioDiario);
+	spanSalarioOrdinarioPromedioDiario.html(salarioOrdinarioPromedioDiario);
+	spanSalarioPromedioDiario.html(salarioPromedioDiario);
 }

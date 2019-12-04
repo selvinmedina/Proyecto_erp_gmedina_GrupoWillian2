@@ -20,7 +20,7 @@ namespace ERP_GMEDINA.Controllers
         public JsonResult GetInfoEmpleado(int idEmpleado, DateTime fechaFin)
         {
             double anios = 0, meses = 0, dias = 0;
-            object json;
+            object json, salarios;
 
             using (ERP_GMEDINAEntities db = new ERP_GMEDINAEntities())
             {
@@ -55,7 +55,7 @@ namespace ERP_GMEDINA.Controllers
                                         nombreEmpleado = tp.per_Nombres,
                                         apellidoEmpleado = tp.per_Apellidos,
                                         fechaIngreso = (te.emp_Fechaingreso.Year + "/" +
-                                                       ((te.emp_Fechaingreso.Month > 9) ? te.emp_Fechaingreso.Month.ToString() : "0" + te.emp_Fechaingreso.Month.ToString()) + "/" + 
+                                                       ((te.emp_Fechaingreso.Month > 9) ? te.emp_Fechaingreso.Month.ToString() : "0" + te.emp_Fechaingreso.Month.ToString()) + "/" +
                                                        ((te.emp_Fechaingreso.Day > 9) ? te.emp_Fechaingreso.Day.ToString() : "0" + te.emp_Fechaingreso.Day.ToString())),
                                         sexoEmpleado = (tp.per_Sexo == "m" || tp.per_Sexo == "M") ? "Masculino" : "Femenino",
                                         edadEmpleado = (int?)tp.per_Edad,
@@ -67,21 +67,11 @@ namespace ERP_GMEDINA.Controllers
 
                     dias = Liquidacion.Dias360Mes(fechaFin, idEmpleado);
 
-                    while (dias >= 360)
-                    {
-                        dias -= 360;
-                        anios += 1;
-                    }
+                    Liquidacion.CalcularAniosMesesDias(ref anios, ref meses, ref dias);
 
-                    while (dias >= 30)
-                    {
-                        dias -= 30;
-                        meses += 1;
-                    }
+                    salarios = Liquidacion.EjecutarCalculosSalarios(idEmpleado);
 
-
-
-                    json = new { consulta, anios, meses, dias };
+                    json = new { consulta, anios, meses, dias, salarios };
                     return Json(json, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception ex)

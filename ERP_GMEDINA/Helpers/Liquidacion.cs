@@ -8,9 +8,9 @@ namespace ERP_GMEDINA.Helpers
 {
     public class Liquidacion
     {
+        #region Calcular las fechas, año de 360 días
         public static double Dias360Mes(DateTime fechaFin, int idEmpleado)
         {
-            #region Calcular las fechas, año de 360 días
             DateTime fechaInicio = DateTime.MinValue;
             using (ERP_GMEDINAEntities db = new ERP_GMEDINAEntities())
             {
@@ -53,70 +53,218 @@ namespace ERP_GMEDINA.Helpers
         }
         #endregion
 
-        public decimal Salario(int emp_Id)
-        { 
+        #region Hecho, o Haciendo
+        public static decimal? Salario(int idEmpleado)
+        {
+            decimal? salario = 0;
             //Cacular el salario en base a los ultimos 6 mesesde pago
-            //Si tiene mas de 6 meses que lo calcule en base a eso
-            //Hacer el promedio de los ultimos 6 meses de pago para el "Salario"
+            using (ERP_GMEDINAEntities db = new ERP_GMEDINAEntities())
+            {
+                var historialSalariosDB = ObtenerSalarios(idEmpleado, db).Take(6).ToList();
+                decimal dHistorialSalariosDB = 0;
 
-            //No se pueden dejar salarios vacios
-            //Si no entonces usar el salario Mensual
+                if (historialSalariosDB.Count() > 0)
+                {
+                    //Hacer el promedio de x cantidad de meses meses de pago para el "Salario"
+                    foreach (var item in historialSalariosDB)
+                    {
+                        dHistorialSalariosDB += item;
+                    }
+                    salario = (dHistorialSalariosDB / historialSalariosDB.Count());
+                }
+                else
+                {
+                    //Salario es el sueldo
+                    salario = db.tbSueldos.Where(x => x.emp_Id == idEmpleado).Select(x => x.sue_Cantidad).FirstOrDefault();
+                }
+            }
 
-            return 0;
+            return salario;
         }
 
-        public decimal SalarioOrdinarioDiario(decimal salario)
+        public static decimal? SalarioOrdinarioDiario(decimal? salario)
         {
-            //Salario Ordinario Diario: 
-            //Salario%30
-
-
-            return 0;
+            //Salario Ordinario Diario: salario/30
+            return (salario/30);
         }
 
         /*
             No puede qeudar ninguno vacio o sin valor en los promedios de los ultimos 6 meses 
         */
 
-        public decimal SalarioOrdinarioPromedioDiario(decimal salario)
+        public static decimal? SalarioOrdinarioPromedioDiario(decimal? salario)
         {
-            //Salario*14
-            //Salario/360
-
-
-            return 0;
+            //Salario ordinario promedio diario = (salario * 14)/360
+            return ((salario*14)/360);
         }
 
-        public decimal SalarioPromedioDiaro(decimal salario)
+        public decimal SalarioPromedioDiaro(decimal salario, decimal promedioHorasExtras, decimal promedioBonificaciones)
         {
             //SalarioOrdinarioPromedioDiario + Horas Extras + Bonificaciones..
 
             return 0;
         }
 
-        public decimal ComisionesUltimos6Meses()
+        public decimal? AlimentacionOVicienda(decimal? salario)
         {
-            //Promedio de 6 comisiones / 6  ... Si no hay comisiones dejarlo en 0
+            return (salario * 0.20M);
+        }
+        public decimal? AlimentacionYVivienda(decimal? salario)
+        {
+            return (salario * 0.30M);
+        }
+        #endregion
+
+        #region Por hacer
+        public decimal Comisiones()
+        {
+            decimal comision = 0;
+            //(Comisiones en los ultimos 6 meses / 6 )
+            using(ERP_GMEDINAEntities db = new ERP_GMEDINAEntities())
+            {
+                //var promedioComisiones = db.tbEmpleadoComisiones.Where(x=> x.cc_Pagado =)
+
+                //if (historialSalariosDB.Count() > 0)
+                //{
+                //    Hacer el promedio de x cantidad de meses meses de pago para el "Salario"
+                //    foreach (var item in historialSalariosDB)
+                //    {
+                //        dHistorialSalariosDB += item;
+                //    }
+                //    salario = (dHistorialSalariosDB / historialSalariosDB.Count());
+                //}
+                //else
+                //{
+                //    Salario es el sueldo
+                //    salario = db.tbSueldos.Where(x => x.emp_Id == idEmpleado).Select(x => x.sue_Cantidad).FirstOrDefault();
+                //}
+            }
+            return comision;
+        }
+
+        public decimal HorasExtras()
+        {
+            //(Horas extras en los últimos 6 meses / 30) / 8
             return 0;
         }
 
-
-
-        #region MALCOM_MEDINA
-
-        //CALCULO DE SALARIO ORDINARIO PROMEDIO MENSUAL
-        public decimal SalarioOrdinarioMensual(int Emp_Id)
+        public decimal Bonificaciones()
         {
-            //Captura de años de antiguedad
-            decimal SalarioPromedio;
-            using (ERP_GMEDINAEntities db = new ERP_GMEDINAEntities())
-            {
-                IQueryable<decimal> SalariosUlt6Meses = db.tbHistorialDePago.Where(p => p.emp_Id == Emp_Id).Select(x => (decimal)x.hipa_SueldoNeto).Take(6);
-                //CAPTURA DEL SALARIO PROMEDIO Y CONVERSIÓN A STRING PARA EL RETORNO 
-                SalarioPromedio = SalariosUlt6Meses.Average();
-            }
-            return SalarioPromedio;
+            //(Bonificaciones en los últimos 6 meses / 6)
+            return 0;
         }
+
+        public bool mas10Empleados()
+        {
+
+            return true;
+        }
+
+        public void EsEmpresaDomestica()
+        {
+
+        }
+
+        public void Preaviso()
+        {
+            /*
+             (Salario Promedio Diario * 30) 
+    	     (DependiendoCantidadTiempoTrabajado: Salario Promedio Diario * 60)         
+             */
+
+        }
+
+        public void Cesantia(decimal? salarioPromedioDiario, double dias)
+        {
+            double anios = 0, meses = 0;
+            decimal? salarioCesantia = 0;
+            double salarioCesantiaProporcional = 0;
+            CalcularAniosMesesDias(ref anios, ref meses, ref dias);
+            decimal? salario30Dias = (salarioPromedioDiario * 30);
+            decimal? salario20Dias = (salarioPromedioDiario * 20);
+            decimal? salario10Dias = (salarioPromedioDiario * 10);
+
+            if (anios >= 1)
+            {
+                while(anios >= 1)
+                {
+                    anios -= 1;
+                    salarioCesantia += salario30Dias;
+                }
+
+                if (meses >= 1)
+                {
+                    double cantidadDiasMes = 0;
+                    double diasAnio = 0;
+                    while (meses > 1)
+                    {
+                        meses -= 1;
+                        cantidadDiasMes += 30;
+                    }
+
+                    cantidadDiasMes += dias;
+
+                    double calculoDiasMesPor30 = (cantidadDiasMes*30);
+
+                    diasAnio = (calculoDiasMesPor30 / 360);
+                    salarioCesantiaProporcional = (diasAnio * Decimal.ToDouble(salarioPromedioDiario.Value));
+                }
+            }
+
+            if(meses>=6 && anios < 1)
+            {
+                while (meses >= 6)
+                {
+                    //continuar haciendo las siguientes validaciones...
+                }
+            }
+
+            //Tomare en cuenta el salario promedio diario para pagar los dias de salario
+            /*
+             (tiempo >=3 meses  && tiempo < 6 meses) 10 dias de salario
+	         (tiempo >=6 meses  && tiempo < 1 año) 20 dias de salario
+	         (tiempo >= 1 año) 30 dias de salario + la parte porporcional por fracciones             
+             */
+
+        }
+
+        public static void CalcularAniosMesesDias(ref double anios, ref double meses, ref double dias)
+        {
+            while (dias >= 360)
+            {
+                dias -= 360;
+                anios += 1;
+            }
+
+            while (dias >= 30)
+            {
+                dias -= 30;
+                meses += 1;
+            }
+        }
+
+
         #endregion
+
+        private static IQueryable<decimal> ObtenerSalarios(int Emp_Id, ERP_GMEDINAEntities db)
+        {
+            return db.tbHistorialDePago.Where(p => p.emp_Id == Emp_Id).Select(x => (decimal)x.hipa_SueldoNeto);
+        }
+
+        //Ejecutar calculos
+        public static object EjecutarCalculosSalarios(int idEmpleado)
+        {
+            decimal? salario = Salario(idEmpleado).Value;
+            decimal? salarioOrdinarioDiario = SalarioOrdinarioDiario(salario);
+            decimal? salarioOrdinarioPromedioDiario = SalarioOrdinarioPromedioDiario(salario);
+            decimal? salarioPromedioDiario = salarioOrdinarioPromedioDiario;
+
+            salario = Math.Round((Decimal)salario, 2);
+            salarioOrdinarioDiario = Math.Round((Decimal)salarioOrdinarioDiario, 2);
+            salarioOrdinarioPromedioDiario = Math.Round((Decimal)salarioOrdinarioPromedioDiario, 2);
+            salarioPromedioDiario = Math.Round((Decimal)salarioPromedioDiario, 2);
+
+            return new {salario, salarioOrdinarioDiario, salarioOrdinarioPromedioDiario, salarioPromedioDiario };
+        }
     }
 }
