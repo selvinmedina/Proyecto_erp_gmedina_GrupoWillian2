@@ -85,7 +85,7 @@ namespace ERP_GMEDINA.Helpers
         public static decimal? SalarioOrdinarioDiario(decimal? salario)
         {
             //Salario Ordinario Diario: salario/30
-            return (salario/30);
+            return (salario / 30);
         }
 
         /*
@@ -95,7 +95,7 @@ namespace ERP_GMEDINA.Helpers
         public static decimal? SalarioOrdinarioPromedioDiario(decimal? salario)
         {
             //Salario ordinario promedio diario = (salario * 14)/360
-            return ((salario*14)/360);
+            return ((salario * 14) / 360);
         }
 
         public decimal SalarioPromedioDiaro(decimal salario, decimal promedioHorasExtras, decimal promedioBonificaciones)
@@ -120,7 +120,7 @@ namespace ERP_GMEDINA.Helpers
         {
             decimal comision = 0;
             //(Comisiones en los ultimos 6 meses / 6 )
-            using(ERP_GMEDINAEntities db = new ERP_GMEDINAEntities())
+            using (ERP_GMEDINAEntities db = new ERP_GMEDINAEntities())
             {
                 //var promedioComisiones = db.tbEmpleadoComisiones.Where(x=> x.cc_Pagado =)
 
@@ -172,6 +172,31 @@ namespace ERP_GMEDINA.Helpers
     	     (DependiendoCantidadTiempoTrabajado: Salario Promedio Diario * 60)         
              */
 
+
+            /*
+              Es la notificación por escrito con que una de las partes da por finalizada la relación laboral.
+              Si no se realizó esta notificación deberá pagarse el equivalente del salario y el plazo de preaviso
+              depende del tiempo de duración de la relación. En periodo de prueba no se otorga preaviso.
+              Menos de 3 meses, se debe considerar 24 horas de preaviso; 
+              de 3-6 meses, 1 semana; de 6 meses a 1 año, 2 semanas; de 1-2 años, 1 mes de preaviso; y más de 2 años, 2 meses.             
+             */
+
+            //Si esta en el perido de prueba no se le otorga preaviso
+
+
+
+            //Menos de 3 meses, 24 horas de salario promedio diario
+            //Es un dia de pago
+
+
+            //De 3 a 6 meses, una semana de pago
+            //7 dias de pago
+            
+            //De 6 meses a 1 año: una semana de pago
+            //14 dias de pago
+
+            //1 a 2 años: 1 mes de preaviso
+
         }
 
         public void Cesantia(decimal? salarioPromedioDiario, double dias)
@@ -183,10 +208,12 @@ namespace ERP_GMEDINA.Helpers
             decimal? salario30Dias = (salarioPromedioDiario * 30);
             decimal? salario20Dias = (salarioPromedioDiario * 20);
             decimal? salario10Dias = (salarioPromedioDiario * 10);
+            decimal salario6Meses = 0;
+            decimal salario3Meses = 0;
 
             if (anios >= 1)
             {
-                while(anios >= 1)
+                while (anios >= 1)
                 {
                     anios -= 1;
                     salarioCesantia += salario30Dias;
@@ -204,19 +231,22 @@ namespace ERP_GMEDINA.Helpers
 
                     cantidadDiasMes += dias;
 
-                    double calculoDiasMesPor30 = (cantidadDiasMes*30);
+                    double calculoDiasMesPor30 = (cantidadDiasMes * 30);
 
                     diasAnio = (calculoDiasMesPor30 / 360);
                     salarioCesantiaProporcional = (diasAnio * Decimal.ToDouble(salarioPromedioDiario.Value));
                 }
             }
 
-            if(meses>=6 && anios < 1)
+            if (meses >= 6 && anios < 1)
             {
-                while (meses >= 6)
-                {
-                    //continuar haciendo las siguientes validaciones...
-                }
+                //continuar haciendo las siguientes validaciones...
+                salario6Meses = ((decimal)salarioPromedioDiario * 20);
+            }
+
+            if (meses >= 3 && meses < 6)
+            {
+                salario3Meses = ((decimal)salarioPromedioDiario * 10);
             }
 
             //Tomare en cuenta el salario promedio diario para pagar los dias de salario
@@ -264,7 +294,7 @@ namespace ERP_GMEDINA.Helpers
             salarioOrdinarioPromedioDiario = Math.Round((Decimal)salarioOrdinarioPromedioDiario, 2);
             salarioPromedioDiario = Math.Round((Decimal)salarioPromedioDiario, 2);
 
-            return new {salario, salarioOrdinarioDiario, salarioOrdinarioPromedioDiario, salarioPromedioDiario };
+            return new { salario, salarioOrdinarioDiario, salarioOrdinarioPromedioDiario, salarioPromedioDiario };
         }
     }
 }
