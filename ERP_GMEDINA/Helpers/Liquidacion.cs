@@ -156,7 +156,7 @@ namespace ERP_GMEDINA.Helpers
 
         public bool mas10Empleados()
         {
-
+            //Ya se esta validando eso en la base de datos
             return true;
         }
 
@@ -191,25 +191,32 @@ namespace ERP_GMEDINA.Helpers
 
             //De 3 a 6 meses, una semana de pago
             //7 dias de pago
-            
+
             //De 6 meses a 1 año: una semana de pago
             //14 dias de pago
 
             //1 a 2 años: 1 mes de preaviso
+            //30 dias de pago, en base a salario promedio diario
+
+
+            //Mas de 2 años: 3 meses de preaviso
+            //60 dias de pago.
 
         }
 
         public void Cesantia(decimal? salarioPromedioDiario, double dias)
         {
-            double anios = 0, meses = 0;
-            decimal? salarioCesantia = 0;
-            double salarioCesantiaProporcional = 0;
+            double anios = 0, meses = 0, salarioCesantiaProporcional = 0;
+
+            decimal? salario30Dias = (salarioPromedioDiario * 30),
+                salario20Dias = (salarioPromedioDiario * 20),
+                salario10Dias = (salarioPromedioDiario * 10),
+                salarioCesantia = 0;
+
+            decimal salario6Meses = 0,
+                salario3Meses = 0;
+
             CalcularAniosMesesDias(ref anios, ref meses, ref dias);
-            decimal? salario30Dias = (salarioPromedioDiario * 30);
-            decimal? salario20Dias = (salarioPromedioDiario * 20);
-            decimal? salario10Dias = (salarioPromedioDiario * 10);
-            decimal salario6Meses = 0;
-            decimal salario3Meses = 0;
 
             if (anios >= 1)
             {
