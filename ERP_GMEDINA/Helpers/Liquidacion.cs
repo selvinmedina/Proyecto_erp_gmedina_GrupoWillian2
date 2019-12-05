@@ -8,6 +8,7 @@ namespace ERP_GMEDINA.Helpers
 {
     public class Liquidacion
     {
+        #region Selvin
         #region Calcular las fechas, año de 360 días
         public static double Dias360Mes(DateTime fechaFin, int idEmpleado)
         {
@@ -95,24 +96,24 @@ namespace ERP_GMEDINA.Helpers
             return ((salario * 14) / 360);
         }
 
-        public decimal SalarioPromedioDiaro(decimal salario, decimal promedioHorasExtras, decimal promedioBonificaciones)
+        public static decimal SalarioPromedioDiaro(decimal salario, decimal promedioHorasExtras, decimal promedioBonificaciones)
         {
             //Salario promedio diario = salario + promedio Horas Extras + promedio Bonificaciones + promedio de Comisiones
 
             return 0;
         }
 
-        public decimal AlimentacionOVivienda(decimal salario)
+        public static decimal AlimentacionOVivienda(decimal salario)
         {
             return (salario * 0.20M);
         }
 
-        public decimal AlimentacionYVivienda(decimal salario)
+        public static decimal AlimentacionYVivienda(decimal salario)
         {
             return (salario * 0.30M);
         }
 
-        public decimal PromedioComisiones(int idEmpleado)
+        public static decimal PromedioComisiones(int idEmpleado)
         {
             //Comisiones en los ultimos 6 meses / 6 
             decimal comision = 0;
@@ -139,7 +140,7 @@ namespace ERP_GMEDINA.Helpers
             return comision;
         }
 
-        public decimal PromedioBonificacines(int idEmpleado)
+        public static decimal PromedioBonificacines(int idEmpleado)
         {
             //Bonificaciones en los últimos 6 meses / 6
             decimal totalPromedioBonificaciones = 0;
@@ -167,18 +168,18 @@ namespace ERP_GMEDINA.Helpers
             return totalPromedioBonificaciones;
         }
 
-        public bool mas10Empleados()
+        public static bool mas10Empleados()
         {
             //Ya se esta validando eso en la base de datos
             return true;
         }
 
-        public void EsEmpresaDomestica()
+        public static void EsEmpresaDomestica()
         {
             //No se tomara en cuenta esta validación para este sistema
         }
 
-        public void Cesantia(decimal salarioPromedioDiario, double dias, ref double salarioCesantiaProporcional, ref decimal salarioCesantia)
+        public static void Cesantia(decimal salarioPromedioDiario, double dias, ref double salarioCesantiaProporcional, ref decimal salarioCesantia)
         {
             double anios = 0, meses = 0;
 
@@ -226,29 +227,50 @@ namespace ERP_GMEDINA.Helpers
 
         }
 
-        public static decimal HorasExtras(int idEmpleado)
+        public static decimal PromedioHorasExtras(int idEmpleado)
         {
             //(Horas extras en los últimos 6 meses / 30) / 8
 
-            int totalHorasExtras = 0, promedioHorasExtras = 0;
+            decimal totalHorasExtras = 0, promedioHorasExtras = 0, cantidadHorasExtras = 0, horasExtras = 0;
 
             using (ERP_GMEDINAEntities db = new ERP_GMEDINAEntities())
             {
-                var fechaUltimos6MesesHorasExtras = ((DateTime)db.tbHistorialHorasTrabajadas
-                    .Where(x => x.htra_Estado == true && x.emp_Id == idEmpleado)
-                    .OrderByDescending(x => x.htra_Fecha)
-                    .Select(x => x.htra_Fecha).FirstOrDefault())
-                    .AddMonths(-6);
+                bool esNulo = true;
+                try
+                {
+                    List<DateTime?> ultimaHoraExtra = (db.tbHistorialHorasTrabajadas
+                        .Where(x => x.htra_Estado == true && x.emp_Id == idEmpleado)
+                        .OrderByDescending(x => x.htra_Fecha).Select(x => x.htra_Fecha)).ToList();
 
-                var historialHorasExtras = db.tbHistorialHorasTrabajadas.
-                    Where(x => x.tbTipoHoras.tiho_Recargo > 0 && x.tbTipoHoras.tiho_Estado == true && x.emp_Id == idEmpleado && x.htra_Fecha >= fechaUltimos6MesesHorasExtras)
-                    .Select(x => x.htra_CantidadHoras).ToList();
 
-                int cantidadHorasExtras = historialHorasExtras.Count;
+                    foreach (var item in ultimaHoraExtra)
+                        if (item != null) esNulo = false;
 
-                if (cantidadHorasExtras > 0) foreach (var item in historialHorasExtras) totalHorasExtras += item;
 
-                promedioHorasExtras = (totalHorasExtras / cantidadHorasExtras);
+                    if (esNulo != false)
+                        return 0;
+                    else
+                    {
+                        DateTime fechaUltimos6MesesHorasExtras = ((DateTime)ultimaHoraExtra.ToList().FirstOrDefault()).AddMonths(-6);
+
+                        var historialHorasExtras = db.tbHistorialHorasTrabajadas.
+                        Where(x => x.tbTipoHoras.tiho_Recargo > 0 && x.tbTipoHoras.tiho_Estado == true && x.emp_Id == idEmpleado && x.htra_Fecha >= fechaUltimos6MesesHorasExtras)
+                        .Select(x => x.htra_CantidadHoras).ToList();
+
+                        cantidadHorasExtras = ultimaHoraExtra.Count;
+
+                        if (cantidadHorasExtras > 0)
+                            foreach (var item in historialHorasExtras) totalHorasExtras += item;
+                    }
+
+                    promedioHorasExtras = (totalHorasExtras / cantidadHorasExtras);
+
+                    horasExtras = (promedioHorasExtras / 30);
+                }
+                catch (Exception ex)
+                {
+                    return promedioHorasExtras = 0;
+                }
             }
 
             return promedioHorasExtras;
@@ -329,13 +351,28 @@ namespace ERP_GMEDINA.Helpers
             decimal salarioOrdinarioPromedioDiario = SalarioOrdinarioPromedioDiario(salario);
             decimal salarioPromedioDiario = salarioOrdinarioPromedioDiario;
 
-            salario = Math.Round((Decimal)salario, 2);
-            salarioOrdinarioDiario = Math.Round((Decimal)salarioOrdinarioDiario, 2);
-            salarioOrdinarioPromedioDiario = Math.Round((Decimal)salarioOrdinarioPromedioDiario, 2);
-            salarioPromedioDiario = Math.Round((Decimal)salarioPromedioDiario, 2);
+            salario = Math.Round(salario, 2);
+            salarioOrdinarioDiario = Math.Round(salarioOrdinarioDiario, 2);
+            salarioOrdinarioPromedioDiario = Math.Round(salarioOrdinarioPromedioDiario, 2);
+
+            //Obtener el promedio de horas extras
+
+            decimal promedioHorasExtras = PromedioHorasExtras(idEmpleado);
+            //Obtener el promedio de comisiones
+            decimal promedioComisiones = PromedioComisiones(idEmpleado);
+
+            //Obtener el promedio de bonificaciones
+            decimal promedioBonificaciones = PromedioBonificacines(idEmpleado);
+
+            //Obtener el salario promedio diario
+            salarioPromedioDiario = SalarioPromedioDiaro(salario, promedioHorasExtras, promedioBonificaciones);
+
+            //salarioPromedioDiario = Math.Round(salarioPromedioDiario, 2);
+
 
             return new { salario, salarioOrdinarioDiario, salarioOrdinarioPromedioDiario, salarioPromedioDiario };
         }
+        #endregion
         #endregion
     }
 }
