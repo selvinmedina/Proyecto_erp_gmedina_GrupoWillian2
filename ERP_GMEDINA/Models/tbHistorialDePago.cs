@@ -34,6 +34,9 @@ namespace ERP_GMEDINA.Models
         public System.DateTime hipa_FechaCrea { get; set; }
         public Nullable<int> hipa_UsuarioModifica { get; set; }
         public Nullable<System.DateTime> hipa_FechaModifica { get; set; }
+        public decimal hipa_TotalISR { get; set; }
+        public Nullable<bool> hipa_ISRPendiente { get; set; }
+        public decimal hipa_AFP { get; set; }
     
         public virtual tbUsuario tbUsuario { get; set; }
         public virtual tbUsuario tbUsuario1 { get; set; }

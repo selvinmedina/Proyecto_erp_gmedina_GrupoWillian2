@@ -12,20 +12,21 @@ namespace ERP_GMEDINA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbVacaciones
+    public partial class tbPrestaciones
     {
-        public int vaca_Id { get; set; }
-        public int emp_Id { get; set; }
-        public Nullable<int> vaca_Dias { get; set; }
-        public bool vaca_Estado { get; set; }
-        public string vaca_RazonInactivo { get; set; }
-        public int vaca_UsuarioCrea { get; set; }
-        public System.DateTime vaca_FechaCrea { get; set; }
-        public Nullable<int> vaca_UsuarioModifica { get; set; }
-        public Nullable<System.DateTime> vaca_FechaModifica { get; set; }
+        public int pres_Id { get; set; }
+        public bool pres_DerechoPreaviso { get; set; }
+        public decimal pres_Preaviso { get; set; }
+        public decimal pres_DecimoTercer { get; set; }
+        public decimal pres_Catorceavo { get; set; }
+        public bool pres_Estado { get; set; }
+        public string pres_RazonInactivo { get; set; }
+        public int pres_UsuarioCrea { get; set; }
+        public System.DateTime pres_FechaCrea { get; set; }
+        public Nullable<int> pres_UsuarioModifica { get; set; }
+        public Nullable<System.DateTime> pres_FechaModifica { get; set; }
     
         public virtual tbUsuario tbUsuario { get; set; }
         public virtual tbUsuario tbUsuario1 { get; set; }
-        public virtual tbEmpleados tbEmpleados { get; set; }
     }
 }

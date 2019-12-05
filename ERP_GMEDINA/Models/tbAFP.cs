@@ -23,7 +23,6 @@ namespace ERP_GMEDINA.Models
         public int afp_Id { get; set; }
         public string afp_Descripcion { get; set; }
         public decimal afp_AporteMinimoLps { get; set; }
-        public decimal afp_AporteMinimoDol { get; set; }
         public decimal afp_InteresAporte { get; set; }
         public decimal afp_InteresAnual { get; set; }
         public int tde_IdTipoDedu { get; set; }

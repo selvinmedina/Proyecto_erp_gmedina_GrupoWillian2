@@ -12,14 +12,17 @@ namespace ERP_GMEDINA.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class V_RRHH_HistorialCargos
+    public partial class V_ISR_RPT
     {
-        public string Nombre_Completo { get; set; }
-        public string Cargo { get; set; }
-        public Nullable<System.DateTime> Fecha_de_Historial { get; set; }
-        public string Usuario_Crea { get; set; }
-        public System.DateTime Fecha_Crea { get; set; }
-        public string Usuario_Modifica { get; set; }
-        public Nullable<System.DateTime> Fecha_Modifica { get; set; }
+        public int emp_Id { get; set; }
+        public string per_Identidad { get; set; }
+        public string NombreCompleto { get; set; }
+        public int depto_Id { get; set; }
+        public string depto_descripcion { get; set; }
+        public int area_Id { get; set; }
+        public string area_Descripcion { get; set; }
+        public decimal hipa_TotalISR { get; set; }
+        public Nullable<decimal> hipa_SueldoNeto { get; set; }
+        public System.DateTime hipa_FechaPago { get; set; }
     }
 }
